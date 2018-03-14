@@ -19,9 +19,22 @@ describe('Dictionary', () => {
             expect(() => {
                 const dict1 = new Dictionary({});
             }).to.throw(TypeError);
+            
+            expect(() => {
+                const dict1 = new Dictionary(new Map());
+            }).to.throw(TypeError);
         });
         
         it('should construct a Dictionary from a nonempty object of entries', () => {
+            expect(() => {
+                const dict1 = new Dictionary({
+                    foo: 42,
+                    bar: 43,
+                });
+            }).to.not.throw();
+        });
+        
+        it('should construct a Dictionary from a nonempty Map of type Map<string, A>', () => {
             expect(() => {
                 const dict1 = new Dictionary({
                     foo: 42,
@@ -41,7 +54,7 @@ describe('Dictionary', () => {
                 bar: 43,
             });
             
-            expect(dict1.hash()).to.equal('d3d392866a4cd840768c4dc57f00225ce8f3cf6c');
+            expect(dict1.hash()).to.equal('c5538531d62a7cc346159c3b58644b87e9d8fb45');
         });
     });
     
@@ -164,11 +177,12 @@ describe('Dictionary', () => {
                 bar: 43,
             });
             
-            const expected = new Dictionary({
-                foo: 43,
-                bar: 44,
-            });
-            expect(dict1.map(x => x + 1).equals(expected)).to.be.true;
+            expect(dict1.map(x => x + 1)).to.satisfy(subject => subject.equals(
+                new Dictionary({
+                    foo: 43,
+                    bar: 44,
+                })
+            ));
         });
     });
 });

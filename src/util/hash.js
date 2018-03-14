@@ -32,6 +32,9 @@ const options = {
     // Do not inspect the prototype when hashing. This means that the caller is expected to disambiguate
     // the types of object themselves (by passing in a type discriminator to `hash()`).
     respectType: false,
+    
+    // Do not sort Map and Set
+    unorderedSets: false,
 };
 
 const cache = new WeakMap();

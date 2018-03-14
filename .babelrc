@@ -6,7 +6,14 @@
                 node: '8.0',
                 browsers: ["last 2 versions", "safari >= 7"],
             },
+            
+            // Do not transpile modules (will generate ES modules)
             modules: false,
+            
+            exclude: [
+                // Do not transpile generators (saves us from needing a polyfill)
+                'transform-regenerator',
+            ],
         }],
     ],
     plugins: [
@@ -36,6 +43,13 @@
                         node: '8.0',
                         browsers: ["last 2 versions", "safari >= 7"],
                     },
+                    
+                    // Transpile modules to CommonJS
+                    modules: 'commonjs',
+                    
+                    exclude: [
+                        'transform-regenerator',
+                    ],
                 }],
             ],
             plugins: [

@@ -8,6 +8,9 @@ import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
+// Cache an instance of the empty object, so that hash() never has to calculate the hash twice
+const empty = {};
+
 // The empty value
 export default class Unit<T : Hashable & Equatable & JsonSerializable> implements Hashable, Equatable, JsonSerializable {
     constructor() {}
@@ -15,7 +18,9 @@ export default class Unit<T : Hashable & Equatable & JsonSerializable> implement
     [asHashable]() {
         return null;
     }
-    hash() { return hash(this); }
+    hash() {
+        return hash(empty);
+    }
     equals(other : Hashable) {
         return other instanceof Unit;
     }
