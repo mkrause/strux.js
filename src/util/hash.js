@@ -5,7 +5,8 @@ import hashObject from 'object-hash';
 import type { Hashable } from '../interfaces/Hashable.js';
 
 
-export const asHashable = Symbol('asHashable');
+// export const asHashable = Symbol('asHashable');
+export const asHashable = '__asHashable';
 
 
 /*
@@ -38,7 +39,7 @@ const cache = new WeakMap();
 export default (value : any) : string => {
     if (typeof value === 'object') {
         if (cache.has(value)) {
-            return cache.get(value);
+            return (cache.get(value) : any); // Type cast (assure flow that the cache entry exists)
         }
     }
     

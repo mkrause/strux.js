@@ -1,5 +1,5 @@
 // @flow
 
 export interface Hashable {
-    hash() : number;
+    hash() : string;
 }
