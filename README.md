@@ -46,6 +46,11 @@ A couple of notable differences:
 
 **Primitives**
 
+* `Unit`
+
+Represents the empty value.
+
+
 * `Text`
 
 Represents a textual value. Can be constructed from any JavaScript string, excluding the empty string `""`.
