@@ -17,11 +17,11 @@ A couple of notable differences:
 
 ## Interfaces
 
-* `Hashable`: support a `hashCode()` method to calculate the hash of some value object.
+* `Hashable`: support a `hash()` method to calculate the hash of some value object.
 
     ```js
     interface Hashable {
-        hashCode() : number;
+        hash() : string;
     }
     ```
 
