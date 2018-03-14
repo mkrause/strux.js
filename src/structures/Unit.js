@@ -8,7 +8,7 @@ import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
-// A nonempty set of key-value pairs, where keys are symbols and values are of a fixed type `T`.
+// The empty value
 export default class Unit<T : Hashable & Equatable & JsonSerializable> implements Hashable, Equatable, JsonSerializable {
     constructor() {}
     

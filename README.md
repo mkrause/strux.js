@@ -53,7 +53,7 @@ Represents the empty value.
 
 * `Text`
 
-Represents a textual value. Can be constructed from any JavaScript string, excluding the empty string `""`.
+Represents a textual value (i.e. a piece of Unicode text). Can be constructed from any JavaScript string, excluding the empty string `""`.
 
 
 * `Natural`
