@@ -1,0 +1,83 @@
+// @flow
+
+import Mapping from "./structures/Mapping.js";
+import Record from "./structures/Record.js";
+import Dictionary from "./structures/Dictionary.js";
+import Natural from "./structures/Natural.js";
+import Text from "./structures/Text.js";
+import Unit from "./structures/Unit.js";
+declare interface Class0 {
+
+  hash(): string;
+}
+declare interface Class1 {
+
+  equals(other: Class0): boolean;
+}
+declare interface Class2 {
+
+  toJSON(): any;
+}
+declare export class Dictionary<A: number | string | Class0 & Class1 & Class2> implements Class0, Class1, Class2 {
+
+  entries: Map<string, A>;
+  constructor(entries: Map<string, A> | {+[_: string]: A}): void | void;
+  equals(other: Class0): boolean | boolean | boolean | boolean;
+  get(entryName: string): number | string | Class0 & Class1 & Class2 | void | void;
+  has(entryName: string): boolean;
+  hash(): string;
+  map<B: number | string | Class0 & Class1 & Class2>(fn: (_: A, _: ?string) => B): Dictionary<B>;
+  size(): number;
+  toJSON(): {} | {} | {} | {} | {} | {};
+}
+
+declare export class Mapping<K: number | string | Class0 & Class1 & Class2, A: number | string | Class0 & Class1 & Class2> implements Class0, Class1, Class2 {
+
+  entries: Map<K, A>;
+  constructor(entries: Map<K, A> | {+[_: string]: A}): void | void | void | void;
+  equals(other: Class0): boolean | boolean | boolean | boolean | boolean | boolean | boolean | boolean;
+  get(key: K): number | string | Class0 & Class1 & Class2 | void | number | string | Class0 & Class1 & Class2 | void | void | void;
+  has(key: K): boolean;
+  hash(): string;
+  map<B: number | string | Class0 & Class1 & Class2>(fn: (_: A, _: ?K) => B): Mapping<K, B>;
+  size(): number;
+  toJSON(): Array<[Class0 & Class1 & Class2 | string | string | number | number, Class0 & Class1 & Class2 | string | string | number | number]> | Array<[any, Class0 & Class1 & Class2 | string | string | number | number]> | Array<[Class0 & Class1 & Class2 | string | string | number | number, any]> | Array<[any, any]>;
+}
+
+declare export class Natural implements Class0, Class1, Class2 {
+
+  value: number;
+  constructor(value: number): void;
+  equals(other: Class0): boolean | boolean;
+  hash(): string;
+  toJSON(): number;
+  valueOf(): number;
+}
+declare export class Record<T: {[_: string]: any}> implements Class0, Class1, Class2 {
+
+  properties: T;
+  constructor(properties: mixed /* UNEXPECTED TYPE: ExistsT */): void | void;
+  equals(other: Class0): boolean | boolean | boolean | boolean;
+  get(propertyName: string): any;
+  has(propertyName: string): boolean;
+  hash(): string;
+  size(): number;
+  toJSON(): {[_: string]: any | any} | {[_: string]: any};
+}
+
+declare export class Text implements Class0, Class1, Class2 {
+
+  value: string;
+  constructor(value: string): void;
+  equals(other: Class0): boolean | boolean;
+  hash(): string;
+  toJSON(): string;
+  toString(): string;
+}
+declare export class Unit implements Class0, Class1, Class2 {
+
+  equals(other: Class0): boolean;
+  hash(): string;
+  toJSON(): null;
+}
+declare export default {Dictionary: Dictionary<A: number | string | Class0 & Class1 & Class2>, Mapping: Mapping<K: number | string | Class0 & Class1 & Class2, A: number | string | Class0 & Class1 & Class2>, Natural: Natural, Record: Record<T: {[_: string]: any}>, Text: Text, Unit: Unit};

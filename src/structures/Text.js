@@ -12,7 +12,7 @@ import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 export default class Text implements Hashable, Equatable, JsonSerializable {
     value : string;
     
-    constructor(value : *) {
+    constructor(value : string) {
         if (value === "") {
             throw new TypeError("Text value cannot be empty");
         }

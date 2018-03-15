@@ -1,0 +1,3 @@
+// @flow
+
+declare export default {fromObject: <A>(obj: {+[_: string]: A}) => Map<string, A>, map: <K, A, B>(map: Map<K, A>, fn: (_: A, _: ?K) => B) => Map<K, B>};

@@ -1,7 +1,8 @@
+//@flow
 
 import Unit from './structures/Unit.js';
-// import Text from './structures/Text.js';
-// import Number from './structures/Number.js';
+import Text from './structures/Text.js';
+import Natural from './structures/Natural.js';
 import Dictionary from './structures/Dictionary.js';
 import Record from './structures/Record.js';
 import Mapping from './structures/Mapping.js';
@@ -9,8 +10,8 @@ import Mapping from './structures/Mapping.js';
 
 export {
     Unit,
-    //Text,
-    //Number,
+    Text,
+    Natural,
     Dictionary,
     Record,
     Mapping,
@@ -18,8 +19,8 @@ export {
 
 export default {
     Unit,
-    //Text,
-    //Number,
+    Text,
+    Natural,
     Dictionary,
     Record,
     Mapping,

@@ -12,7 +12,7 @@ import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 export default class Natural implements Hashable, Equatable, JsonSerializable {
     value : number;
     
-    constructor(value : *) {
+    constructor(value : number) {
         if (!isFinite(value)) {
             throw new TypeError(`Natural cannot be infinity or NaN, given '${value}'`);
         }
