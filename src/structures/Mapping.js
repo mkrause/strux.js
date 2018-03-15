@@ -10,10 +10,10 @@ import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
-type KeyT = any; //number | string | (Hashable & Equatable & JsonSerializable);
-type EntryT = any; //number | string | (Hashable & Equatable & JsonSerializable);
+type KeyT = number | string | (Hashable & Equatable & JsonSerializable);
+type EntryT = number | string | (Hashable & Equatable & JsonSerializable);
 
-// A nonempty set of key-value pairs, where keys are symbols and values are of a fixed type `A`.
+// A nonempty set of key-value pairs, of type `K` and `A` respectively.
 export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatable, JsonSerializable {
     entries : Map<K, A>;
     
@@ -29,7 +29,8 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
                 throw new TypeError(`Mapping cannot be empty. Given an empty object.`);
             }
             
-            this.entries = MapUtil.fromObject(entries);
+            // Type cast: assure flow that `K` = `string` in this case
+            this.entries = ((MapUtil.fromObject(entries) : any) : Map<K, A>);
         }
     }
     

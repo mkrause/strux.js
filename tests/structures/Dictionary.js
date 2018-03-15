@@ -37,10 +37,10 @@ describe('Dictionary', () => {
         
         it('should construct a Dictionary from a nonempty Map of type Map<string, A>', () => {
             expect(() => {
-                const dict1 = new Dictionary({
-                    foo: 42,
-                    bar: 'hello',
-                });
+                const dict1 = new Dictionary(new Map([
+                    ['foo', 42],
+                    ['bar', 'hello'],
+                ]));
             }).to.not.throw();
         });
     });
@@ -103,7 +103,7 @@ describe('Dictionary', () => {
             expect(dict1).to.not.satisfy(subject => subject.equals(dict2));
         });
         
-        it('should return true if the given dictionary has equal properties', () => {
+        it('should return true if the given dictionary has equal entries', () => {
             const dict1 = new Dictionary({
                 foo: 42,
                 bar: 'hello',

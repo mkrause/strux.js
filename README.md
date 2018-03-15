@@ -79,3 +79,5 @@ A record of type `T`. For example, to represent a person with a name field, and 
   ```
 
 * `Mapping<K, V>`
+
+A mapping from arbitrary keys (type `K`) to arbitrary values (type `V`).
