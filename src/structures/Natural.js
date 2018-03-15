@@ -33,7 +33,7 @@ export default class Natural implements Hashable, Equatable, JsonSerializable {
         return this.value;
     }
     hash() { return hash(this.value); }
-    equals(other : Natural) { return other instanceof Natural && this.value === other.value; }
+    equals(other : Hashable) { return other instanceof Natural && this.value === other.value; }
     
     valueOf() { return this.value; }
     // $FlowFixMe

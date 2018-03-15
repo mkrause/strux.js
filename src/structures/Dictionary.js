@@ -51,14 +51,14 @@ export default class Dictionary<A : EntryT> implements Hashable, Equatable, Json
     }
     toJSON() {
         // Note: returns an object, which influences the ordering of the entries. A particular order is still
-        // somewhat guaranteed (as of the ES6 spec), but it not be the same as our original ordering.
+        // somewhat guaranteed (as of the ES6 spec), but it may not be the same as our original ordering.
         // See: https://stackoverflow.com/questions/5525795/does-javascript-guarantee-object-property-order
         return [...this.entries.entries()]
-            .reduce((acc, [propName, prop] : [string, A]) => {
-                if (typeof prop === 'object' && prop && prop.toJSON) {
-                    return { ...acc, [propName]: prop.toJSON() };
+            .reduce((acc, [entryName, entry] : [string, A]) => {
+                if (typeof entry === 'object' && entry && entry.toJSON) {
+                    return { ...acc, [entryName]: entry.toJSON() };
                 } else {
-                    return { ...acc, [propName]: prop };
+                    return { ...acc, [entryName]: prop };
                 }
             }, {});
     }

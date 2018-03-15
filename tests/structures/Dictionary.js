@@ -30,7 +30,7 @@ describe('Dictionary', () => {
             expect(() => {
                 const dict1 = new Dictionary({
                     foo: 42,
-                    bar: 43,
+                    bar: 'hello',
                 });
             }).to.not.throw();
         });
@@ -39,7 +39,7 @@ describe('Dictionary', () => {
             expect(() => {
                 const dict1 = new Dictionary({
                     foo: 42,
-                    bar: 43,
+                    bar: 'hello',
                 });
             }).to.not.throw();
         });
@@ -52,10 +52,10 @@ describe('Dictionary', () => {
         it('should return the hash', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
-            expect(dict1.hash()).to.equal('c5538531d62a7cc346159c3b58644b87e9d8fb45');
+            expect(dict1.hash()).to.equal('d6805cdde4aa69c76a07a177bf15a0e6d0170096');
         });
     });
     
@@ -63,7 +63,7 @@ describe('Dictionary', () => {
         it('should return false if the given dictionary does not have the same size', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
                 baz: 44,
             });
             
@@ -78,7 +78,7 @@ describe('Dictionary', () => {
         it('should return false if the given dictionary does not have equal keys', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             const dict2 = new Dictionary({
@@ -92,7 +92,7 @@ describe('Dictionary', () => {
         it('should return false if the given dictionary does not have equal values', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             const dict2 = new Dictionary({
@@ -106,12 +106,12 @@ describe('Dictionary', () => {
         it('should return true if the given dictionary has equal properties', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             const dict2 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(dict1).to.satisfy(subject => subject.equals(dict2));
@@ -150,7 +150,7 @@ describe('Dictionary', () => {
             const dict1 = new Dictionary({
                 //5: 41,
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
                 //1: 44,
                 //0: 45,
             });
@@ -160,14 +160,14 @@ describe('Dictionary', () => {
                 //1: 44,
                 //5: 41,
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             const dict3 = new Dictionary({
                 //0: 45,
                 //1: 44,
                 //5: 41,
-                bar: 43,
+                bar: 'hello',
                 foo: 42,
             });
             
@@ -185,19 +185,19 @@ describe('Dictionary', () => {
         it('should return a JS object corresponding to the dictionary entries', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(dict1.toJSON()).to.deep.equal({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
         });
         
         it('should return the entry value for an existing key', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(dict1.get('foo')).to.equal(42);
@@ -211,7 +211,7 @@ describe('Dictionary', () => {
             });
             const dict2 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
                 baz: 44,
                 qux: 45,
                 quux: 46,
@@ -224,7 +224,7 @@ describe('Dictionary', () => {
         it('should return the entry value for an existing key', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(dict1.get('foo')).to.equal(42);
@@ -235,7 +235,7 @@ describe('Dictionary', () => {
         it('should return false for a nonexisting key', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(dict1.has('nonexistent')).to.be.false;
@@ -244,7 +244,7 @@ describe('Dictionary', () => {
         it('should return true for an existing key', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(dict1.has('foo')).to.be.true;
@@ -255,7 +255,7 @@ describe('Dictionary', () => {
         it('should fail for a nonexisting key', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(() => {
@@ -266,7 +266,7 @@ describe('Dictionary', () => {
         it('should return the entry value for an existing key', () => {
             const dict1 = new Dictionary({
                 foo: 42,
-                bar: 43,
+                bar: 'hello',
             });
             
             expect(dict1.get('foo')).to.equal(42);

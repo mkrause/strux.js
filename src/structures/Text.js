@@ -25,7 +25,7 @@ export default class Text implements Hashable, Equatable, JsonSerializable {
         return this.value;
     }
     hash() { return hash(this.value); }
-    equals(other : Text) { return other instanceof Text && this.value === other.value; }
+    equals(other : Hashable) { return other instanceof Text && this.value === other.value; }
     
     toString() { return this.value; }
     // $FlowFixMe
