@@ -19,7 +19,7 @@ Unlike something like ImmutableJS, strux has not (yet) been optimized by any mea
 
 ## Interfaces
 
-* `Hashable`: support a `hash()` method to calculate the hash of some value object.
+* `Hashable`: support a `hash()` method to calculate a unique hash for some value object.
 
 ```js
 interface Hashable {
