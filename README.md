@@ -106,9 +106,9 @@ A mapping from arbitrary keys (type `K`) to arbitrary values (type `V`).
 
 ```js
 type Person = { +name: string, +score: number };
-const users = new Mapping(new Map([
+const users = new Mapping([
     [{ id: 'john' }, new Record<Person>({ name: 'John', score: 42 })],
     [{ id: 'alice' }, new Record<Person>({ name: 'Alice', score: 101 })],
-]));
+]);
 users.get({ id: 'alice' }).get('score'); // 101
 ```
