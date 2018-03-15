@@ -40,15 +40,19 @@ const options = {
 const cache = new WeakMap();
 
 export default (value : any) : string => {
+    if (value === undefined) {
+        // object-hash does not accept undefined (and that makes sense)
+        throw new TypeError('Cannot hash `undefined`');
+    }
+    
+    if (typeof value === 'object' && value !== null && asHashable in value) {
+        value = value[asHashable]();
+    }
+    
     if (typeof value === 'object') {
         if (cache.has(value)) {
             return (cache.get(value) : any); // Type cast (assure flow that the cache entry exists)
         }
-    }
-    
-    let valueAsHashable = value;
-    if (typeof value === 'object' && value !== null && asHashable in value) {
-        valueAsHashable = value[asHashable]();
     }
     
     const hash = hashObject(value, options);

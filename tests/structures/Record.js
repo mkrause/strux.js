@@ -44,7 +44,7 @@ describe('Record', () => {
                 score: 42,
             });
             
-            expect(record1.hash()).to.equal('aca7f28d37ad01bf2bb02589a36debb9a8cf5827');
+            expect(record1.hash()).to.equal('7e45df4cb6817c5e5ec1ad4ca7fca703fd7fa6b2');
         });
     });
     

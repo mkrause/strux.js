@@ -55,7 +55,7 @@ describe('Dictionary', () => {
                 bar: 'hello',
             });
             
-            expect(dict1.hash()).to.equal('d6805cdde4aa69c76a07a177bf15a0e6d0170096');
+            expect(dict1.hash()).to.equal('d365b587b3d8f7a9c6872a03b81a493d81d66554');
         });
     });
     

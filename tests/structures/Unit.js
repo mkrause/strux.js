@@ -40,7 +40,7 @@ describe('Unit', () => {
         it('should return null', () => {
             const unit = new Unit();
             
-            expect(unit.toJSON()).to.deep.equal(null);
+            expect(unit.toJSON()).to.equal(null);
             expect(JSON.stringify(unit)).to.equal('null');
         });
     });
