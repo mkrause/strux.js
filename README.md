@@ -57,10 +57,22 @@ Represents the empty value. Serves a purpose similar to `null` in JS.
 
 Represents a textual value (i.e. a piece of Unicode text). Can be constructed from any JS string, excluding the empty string `""`.
 
+    ```js
+    const message = new Text('hello');
+    message.equals(new Text('hello')); // true
+    message.toString(); // 'hello'
+    ```
+
 
 * `Natural`
 
 Represents a natural number. Can be constructed from any finite JS integer greater than zero.
+
+    ```js
+    const count = new Natural(42);
+    count.equals(new Natural(42)); // true
+    count.valueOf(); // 42
+    ```
 
 
 **Compounds**
@@ -69,15 +81,34 @@ Represents a natural number. Can be constructed from any finite JS integer great
 
 A mapping from symbols (strings) to values of type `A`. Similar to a JS object, in that keys are always textual. But meant specifically for collections of items of the same type (`A`). In contrast, objects that represent a single (record) type should use the `Record` type.
 
+    ```js
+    const scores = new Dictionary({
+        john: 42,
+        alice: 101,
+    });
+    scores.get('john'); // 42
+    count.toJSON(); // { john: 42, alice: 101 }
+    ```
+
 * `Record<T>`
 
 A record of type `T`. For example, to represent a person with a name field, and a numerical score:
 
-  ```js
-  type Person = { +name: string, +score: number };
-  const john : Record<Person> = new Record({ name: 'John', score: 42 });
-  ```
+    ```js
+    type Person = { +name: string, +score: number };
+    const john : Record<Person> = new Record({ name: 'John', score: 42 });
+    john.name; // 'John'
+    ```
 
 * `Mapping<K, V>`
 
 A mapping from arbitrary keys (type `K`) to arbitrary values (type `V`).
+
+    ```js
+    type Person = { +name: string, +score: number };
+    const users = new Mapping({
+        john: new Record<Person>({ name: 'John', score: 42 }),
+        alice: new Record<Person>({ name: 'Alice', score: 101 }),
+    });
+    users.get('alice').score; // 101
+    ```
