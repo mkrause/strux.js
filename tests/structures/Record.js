@@ -247,4 +247,15 @@ describe('Record', () => {
             expect(record1.get('name')).to.equal('John');
         });
     });
+    
+    // describe('getters', () => {
+    //     it('should allow direct property access to nonconflicting property names', () => {
+    //         const record1 : Record<Person> = new Record({
+    //             name: 'John',
+    //             score: 42,
+    //         });
+            
+    //         expect(record1.name).to.equal('John');
+    //     });
+    // });
 });

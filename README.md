@@ -97,7 +97,7 @@ A record of type `T`. For example, to represent a person with a name field, and 
     ```js
     type Person = { +name: string, +score: number };
     const john : Record<Person> = new Record({ name: 'John', score: 42 });
-    john.name; // 'John'
+    john.get('name'); // 'John'
     ```
 
 * `Mapping<K, V>`
@@ -110,5 +110,5 @@ A mapping from arbitrary keys (type `K`) to arbitrary values (type `V`).
         john: new Record<Person>({ name: 'John', score: 42 }),
         alice: new Record<Person>({ name: 'Alice', score: 101 }),
     });
-    users.get('alice').score; // 101
+    users.get('alice').get('score'); // 101
     ```

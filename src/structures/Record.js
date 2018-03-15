@@ -34,6 +34,19 @@ export default class Record<T : { [string] : PropertyT }> implements Hashable, E
         }
         
         this.properties = properties;
+        
+        //XXX flow doesn't accept adding dynamic properties
+        // Define getters for all properties (to allow using `entity.foo` instead of `entity.get('foo')`)
+        // for (const entryName of Object.keys(properties)) {
+        //     if (entryName in this) {
+        //         // Ignore keys that already exist
+        //         continue;
+        //     }
+        //     
+        //     Object.defineProperty(this, entryName, {
+        //         get: () => this.properties[entryName],
+        //     });
+        // }
     }
     
     // $FlowFixMe
