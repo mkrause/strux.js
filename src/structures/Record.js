@@ -10,7 +10,8 @@ import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
-type PropertyT = Hashable & Equatable & JsonSerializable;
+//type PropertyT = string | number | (Hashable & Equatable & JsonSerializable);
+type PropertyT = any;
 
 // A record (set of properties), which is a valid instance of the type `T`
 export default class Record<T : { [string] : PropertyT }> implements Hashable, Equatable, JsonSerializable {

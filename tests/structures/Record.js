@@ -7,6 +7,8 @@ import chai, { assert, expect } from 'chai';
 import Record from '../../src/structures/Record.js';
 
 
+type Person = { name : string, score : number };
+
 describe('Record', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
@@ -24,9 +26,9 @@ describe('Record', () => {
         
         it('should construct a Record from a nonempty object of properties', () => {
             expect(() => {
-                const record1 = new Record({
-                    foo: 42,
-                    bar: 43,
+                const record1 : Record<Person> = new Record({
+                    name: 'John',
+                    score: 42,
                 });
             }).to.not.throw();
         });
@@ -37,9 +39,9 @@ describe('Record', () => {
         // may fail at some point (which is fine).
         
         it('should return the hash', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1.hash()).to.equal('1c114e9dc3c80493353cfdf0ca738bdd78dd2b02');
@@ -48,57 +50,57 @@ describe('Record', () => {
     
     describe('equals()', () => {
         it('should return false if the given record does not have the same size', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
-                baz: 44,
+            const record1 : Record<Person & { foo: number }> = new Record({
+                name: 'John',
+                score: 42,
+                foo: 44,
             });
             
-            const record2 = new Record({
-                foo: 42,
-                baz: 43,
+            const record2 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1).to.not.satisfy(subject => subject.equals(record2));
         });
         
         it('should return false if the given record does not have equal keys', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
-            const record2 = new Record({
+            const record2 : Record<{ name : string, foo : number }> = new Record({
+                name: 'John',
                 foo: 42,
-                baz: 43,
             });
             
             expect(record1).to.not.satisfy(subject => subject.equals(record2));
         });
         
         it('should return false if the given record does not have equal values', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
-            const record2 = new Record({
-                foo: 42,
-                bar: 44,
+            const record2 : Record<Person> = new Record({
+                name: 'John',
+                score: 43,
             });
             
             expect(record1).to.not.satisfy(subject => subject.equals(record2));
         });
         
         it('should return true if the given record has equal properties', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
-            const record2 = new Record({
-                foo: 42,
-                bar: 43,
+            const record2 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1).to.satisfy(subject => subject.equals(record2));
@@ -117,28 +119,28 @@ describe('Record', () => {
             // Update: numeric record keys are not allowed at the moment anyway, so these
             // cases have been commented out.
             
-            const record1 = new Record({
+            const record1 : Record<Person> = new Record({
                 //5: 41,
-                foo: 42,
-                bar: 43,
+                foo: 'hello',
+                bar: 42,
                 //1: 44,
                 //0: 45,
             });
             
-            const record2 = new Record({
+            const record2 : Record<Person> = new Record({
                 //0: 45,
                 //1: 44,
                 //5: 41,
-                foo: 42,
-                bar: 43,
+                foo: 'hello',
+                bar: 42,
             });
             
-            const record3 = new Record({
+            const record3 : Record<Person> = new Record({
                 //0: 45,
                 //1: 44,
                 //5: 41,
-                bar: 43,
-                foo: 42,
+                bar: 42,
+                foo: 'hello',
             });
             
             // `record1` and `record2` have the same order according to ES6 rules
@@ -153,21 +155,21 @@ describe('Record', () => {
     
     describe('toJSON()', () => {
         it('should return a JS object corresponding to the record properties', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1.toJSON()).to.deep.equal({
-                foo: 42,
-                bar: 43,
+                name: 'John',
+                score: 42,
             });
         });
         
         it('should return the property value for an existing key', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1.get('foo')).to.equal(42);
@@ -177,11 +179,11 @@ describe('Record', () => {
     describe('size()', () => {
         it('should return the size of the record', () => {
             const record1 = new Record({
-                foo: 42,
+                foo: 'John',
             });
             const record2 = new Record({
-                foo: 42,
-                bar: 43,
+                foo: 'John',
+                bar: 42,
                 baz: 44,
                 qux: 45,
                 quux: 46,
@@ -192,9 +194,9 @@ describe('Record', () => {
         });
         
         it('should return the property value for an existing key', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1.get('foo')).to.equal(42);
@@ -203,18 +205,18 @@ describe('Record', () => {
     
     describe('has()', () => {
         it('should return false for a nonexisting key', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1.has('nonexistent')).to.be.false;
         });
         
         it('should return true for an existing key', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1.has('foo')).to.be.true;
@@ -223,9 +225,9 @@ describe('Record', () => {
     
     describe('get()', () => {
         it('should fail for a nonexisting key', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(() => {
@@ -234,9 +236,9 @@ describe('Record', () => {
         });
         
         it('should return the property value for an existing key', () => {
-            const record1 = new Record({
-                foo: 42,
-                bar: 43,
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
             });
             
             expect(record1.get('foo')).to.equal(42);
