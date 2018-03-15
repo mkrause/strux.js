@@ -32,6 +32,6 @@
         "chai": "^4.1.2"
     },
     "dependencies": {
-        "object-hash": "^1.2.0"
+        "object-hash": "git+https://git@github.com/mkrause/object-hash.git"
     }
 }

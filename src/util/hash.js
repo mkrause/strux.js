@@ -20,6 +20,8 @@ Alternatives:
   - ImmutableJS's hash utility
     https://github.com/facebook/immutable-js/blob/master/src/Hash.js
     > Numerical hash codes; very fast; however not globally unique (duplicates are common)
+  - https://www.npmjs.com/package/node-object-hash
+    > Doesn't work in the browser (?)
   - https://www.npmjs.com/package/oid
   - https://github.com/planttheidea/hash-it
     > Numerical hash codes
@@ -35,6 +37,9 @@ const options = {
     
     // Do not sort Map and Set
     unorderedSets: false,
+    
+    // Do not sort object properties
+    unorderedObjects: false,
 };
 
 const cache = new WeakMap();
