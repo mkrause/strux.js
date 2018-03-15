@@ -15,6 +15,7 @@ const empty = {};
 export default class Unit<T : Hashable & Equatable & JsonSerializable> implements Hashable, Equatable, JsonSerializable {
     constructor() {}
     
+    // $FlowFixMe
     [asHashable]() {
         return null;
     }
@@ -25,6 +26,6 @@ export default class Unit<T : Hashable & Equatable & JsonSerializable> implement
         return other instanceof Unit;
     }
     toJSON() {
-        return {};
+        return null;
     }
 }

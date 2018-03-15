@@ -37,11 +37,11 @@ describe('Unit', () => {
     });
     
     describe('toJSON()', () => {
-        it('should return an empty JS object literal', () => {
+        it('should return null', () => {
             const unit = new Unit();
             
-            expect(unit.toJSON()).to.deep.equal({});
-            expect(JSON.stringify(unit)).to.equal('{}');
+            expect(unit.toJSON()).to.deep.equal(null);
+            expect(JSON.stringify(unit)).to.equal('null');
         });
     });
 });

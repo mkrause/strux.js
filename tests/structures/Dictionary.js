@@ -11,6 +11,7 @@ describe('Dictionary', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             expect(() => {
+                // $FlowFixMe
                 const dict1 = new Dictionary();
             }).to.throw(TypeError);
         });
@@ -58,23 +59,125 @@ describe('Dictionary', () => {
         });
     });
     
-    describe('ordering', () => {
-        // Dictionary is supposed to be an ordered type. That is, the order of the entries
-        // should be maintained.
+    describe('equals()', () => {
+        it('should return false if the given dictionary does not have the same size', () => {
+            const dict1 = new Dictionary({
+                foo: 42,
+                bar: 43,
+                baz: 44,
+            });
+            
+            const dict2 = new Dictionary({
+                foo: 42,
+                baz: 43,
+            });
+            
+            expect(dict1).to.not.satisfy(subject => subject.equals(dict2));
+        });
         
-        it('should be maintained', () => {
+        it('should return false if the given dictionary does not have equal keys', () => {
             const dict1 = new Dictionary({
                 foo: 42,
                 bar: 43,
             });
             
             const dict2 = new Dictionary({
+                foo: 42,
+                baz: 43,
+            });
+            
+            expect(dict1).to.not.satisfy(subject => subject.equals(dict2));
+        });
+        
+        it('should return false if the given dictionary does not have equal values', () => {
+            const dict1 = new Dictionary({
+                foo: 42,
+                bar: 43,
+            });
+            
+            const dict2 = new Dictionary({
+                foo: 42,
+                bar: 44,
+            });
+            
+            expect(dict1).to.not.satisfy(subject => subject.equals(dict2));
+        });
+        
+        it('should return true if the given dictionary has equal properties', () => {
+            const dict1 = new Dictionary({
+                foo: 42,
+                bar: 43,
+            });
+            
+            const dict2 = new Dictionary({
+                foo: 42,
+                bar: 43,
+            });
+            
+            expect(dict1).to.satisfy(subject => subject.equals(dict2));
+        });
+    });
+    
+    describe('ordering', () => {
+        // Dictionary is supposed to be an ordered type. That is, the order of the entries
+        // should be maintained.
+        
+        it('should be maintained in insertion order', () => {
+            // ES6 Map is guaranteed to be ordered in order of insertion
+            
+            const dict1 = new Dictionary(new Map([
+                ['foo', 42],
+                ['bar', 43],
+            ]));
+            
+            const dict2 = new Dictionary(new Map([
+                ['bar', 43],
+                ['foo', 42],
+            ]));
+            
+            expect(dict1.hash()).to.not.equal(dict2.hash());
+            expect(dict1).to.not.satisfy(subject => subject.equals(dict2));
+        });
+        
+        it('should be maintained for plain objects as much as ES6 ordering is allowed', () => {
+            // JS objects are (as of the ES6 spec) ordered, with the caveat that number-like keys
+            // are ordered first. We want to maintain the order, upto the differences due to these rules.
+            // See: https://stackoverflow.com/questions/5525795/does-javascript-guarantee
+            
+            // Update: numeric dictionary keys are not allowed at the moment anyway, so these
+            // cases have been commented out.
+            
+            const dict1 = new Dictionary({
+                //5: 41,
+                foo: 42,
+                bar: 43,
+                //1: 44,
+                //0: 45,
+            });
+            
+            const dict2 = new Dictionary({
+                //0: 45,
+                //1: 44,
+                //5: 41,
+                foo: 42,
+                bar: 43,
+            });
+            
+            const dict3 = new Dictionary({
+                //0: 45,
+                //1: 44,
+                //5: 41,
                 bar: 43,
                 foo: 42,
             });
             
-            expect(dict1.hash()).to.not.equal(dict2.hash());
-            expect(dict1.equals(dict2)).to.not.be.true;
+            // `dict1` and `dict2` have the same order according to ES6 rules
+            expect(dict1.hash()).to.equal(dict2.hash());
+            expect(dict1).to.satisfy(subject => subject.equals(dict2));
+            
+            // `dict1` and `dict3` have the a different according to ES6 rules
+            expect(dict1.hash()).to.not.equal(dict3.hash());
+            expect(dict1).to.not.satisfy(subject => subject.equals(dict3));
         });
     });
     

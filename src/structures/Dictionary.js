@@ -10,8 +10,10 @@ import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
+type EntryT = number | string | (Hashable & Equatable & JsonSerializable);
+
 // A nonempty set of key-value pairs, where keys are symbols and values are of a fixed type `A`.
-export default class Dictionary<A : Hashable & Equatable & JsonSerializable> implements Hashable, Equatable, JsonSerializable {
+export default class Dictionary<A : EntryT> implements Hashable, Equatable, JsonSerializable {
     entries : Map<string, A>;
     
     constructor(entries : Map<string, A> | { +[string] : A }) {
@@ -38,6 +40,7 @@ export default class Dictionary<A : Hashable & Equatable & JsonSerializable> imp
         }
     }
     
+    // $FlowFixMe
     [asHashable]() {
         // Note: return another Map object (rather than a plain object), so that ordering is maintained
         return MapUtil.map(this.entries, hash);
@@ -51,8 +54,8 @@ export default class Dictionary<A : Hashable & Equatable & JsonSerializable> imp
         // somewhat guaranteed (as of the ES6 spec), but it not be the same as our original ordering.
         // See: https://stackoverflow.com/questions/5525795/does-javascript-guarantee-object-property-order
         return [...this.entries.entries()]
-            .reduce((acc, [propName, prop]) => {
-                if (prop && prop.toJSON) {
+            .reduce((acc, [propName, prop] : [string, A]) => {
+                if (typeof prop === 'object' && prop && prop.toJSON) {
                     return { ...acc, [propName]: prop.toJSON() };
                 } else {
                     return { ...acc, [propName]: prop };
@@ -75,7 +78,7 @@ export default class Dictionary<A : Hashable & Equatable & JsonSerializable> imp
         return this.entries.get(entryName);
     }
     
-    map<B>(fn : (A, ?string) => B) : Dictionary<B> {
+    map<B : EntryT>(fn : (A, ?string) => B) : Dictionary<B> {
         return new Dictionary(MapUtil.map(this.entries, fn));
     }
     // mapToArray(fn : *) { return MapUtil.values(this.map(fn).entries); }
