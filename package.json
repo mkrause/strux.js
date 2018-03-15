@@ -1,7 +1,7 @@
 {
     "name": "@mkrause/strux",
     "version": "0.0.0",
-    "description": "Immutable data structures.",
+    "description": "Immutable data structures for JavaScript + flowtype.",
     "author": "mkrause",
     "license": "MIT",
     "repository": "https://github.com/mkrause/strux.js",
