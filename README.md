@@ -50,7 +50,7 @@ Unlike something like ImmutableJS, strux has not (yet) been optimized by any mea
 
 * `Unit`
 
-Represents the empty value.
+Represents the empty value. Serves a purpose similar to `null` in JS.
 
 
 * `Text`
@@ -66,5 +66,16 @@ Represents a natural number. Can be constructed from any finite JS integer great
 **Compounds**
 
 * `Dictionary<A>`
-* `Record<T : { +[string] : any }>`
+
+A mapping from symbols (strings) to values of type `A`. Similar to a JS object, in that keys are always textual. But meant specifically for collections of items of the same type (`A`). In contrast, objects that represent a single (record) type should use the `Record` type.
+
+* `Record<T>`
+
+A record of type `T`. For example, to represent a person with a name field, and a numerical score:
+
+  ```js
+  type Person = { +name: string, +score: number };
+  const john : Record<Person> = new Record({ name: 'John', score: 42 });
+  ```
+
 * `Mapping<K, V>`
