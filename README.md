@@ -8,11 +8,11 @@ A set of immutable ([persistent](https://en.wikipedia.org/wiki/Persistent_data_s
 
 This library is similar to existing libraries like [ImmutableJS](https://facebook.github.io/immutable-js). I created strux because none of the libraries I could find matched my needs. A few notable ways in which strux is different:
 
-    * strux makes heavy use of modern JavaScript features like `Map` (for true ordered dictionaries, and efficient maps on arbitrary keys), and `WeakMap` (for caching).
-    
-    * We rely on flow for static type checking whenever possible. For example, rather than using runtime type checking of record types (like ImmutableJS `Record`), we rely on flow generics using `Record<T>` (where `T` is the record type).
-    
-    * Data types in strux are generally *nonempty* types. That is, they exclude the "empty" value of that type. For example, a dictionary with zero entries is not a valid instance of `Dictionary`, and an empty string is not a valid instance of `Text`. In more technical terms, we say that these types are [semigroups](https://en.wikipedia.org/wiki/Semigroup) rather than monoids. The reason we default to nonempty types is that it helps to prevent bugs caused by mishandling of edge cases. Expanding a nonempty type to a allow empty values is still easy, by using a maybe type (`?type` in flow).
+* strux makes heavy use of modern JavaScript features like `Map` (for true ordered dictionaries, and efficient maps on arbitrary keys), and `WeakMap` (for caching).
+
+* We rely on flow for static type checking whenever possible. For example, rather than using runtime type checking of record types (like ImmutableJS `Record`), we rely on flow generics using `Record<T>` (where `T` is the record type).
+
+* Data types in strux are generally *nonempty* types. That is, they exclude the "empty" value of that type. For example, a dictionary with zero entries is not a valid instance of `Dictionary`, and an empty string is not a valid instance of `Text`. In more technical terms, we say that these types are [semigroups](https://en.wikipedia.org/wiki/Semigroup) rather than monoids. The reason we default to nonempty types is that it helps to prevent bugs caused by mishandling of edge cases. Expanding a nonempty type to a allow empty values is still easy, by using a maybe type (`?type` in flow).
 
 Unlike something like ImmutableJS, strux has not (yet) been optimized by any means. If you're working with large data sets, or have stringent performance requirements, you probably don't want to use library.
 
