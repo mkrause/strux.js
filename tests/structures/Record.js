@@ -44,7 +44,7 @@ describe('Record', () => {
                 score: 42,
             });
             
-            expect(record1.hash()).to.equal('1c114e9dc3c80493353cfdf0ca738bdd78dd2b02');
+            expect(record1.hash()).to.equal('aca7f28d37ad01bf2bb02589a36debb9a8cf5827');
         });
     });
     
@@ -111,6 +111,9 @@ describe('Record', () => {
         // Record is supposed to be an ordered type. That is, the order of the properties
         // should be maintained.
         
+        // TODO: this test currently fails. The hashing library we use (object-hash) always sorts
+        // object properties before hashing, which means ordering is ignored. To fix this we will have
+        // to fork the library.
         it('should be maintained for plain objects as much as ES6 ordering is allowed', () => {
             // JS objects are (as of the ES6 spec) ordered, with the caveat that number-like keys
             // are ordered first. We want to maintain the order, upto the differences due to these rules.
@@ -172,7 +175,7 @@ describe('Record', () => {
                 score: 42,
             });
             
-            expect(record1.get('foo')).to.equal(42);
+            expect(record1.get('name')).to.equal('John');
         });
     });
     
@@ -199,7 +202,7 @@ describe('Record', () => {
                 score: 42,
             });
             
-            expect(record1.get('foo')).to.equal(42);
+            expect(record1.get('name')).to.equal('John');
         });
     });
     
@@ -219,7 +222,7 @@ describe('Record', () => {
                 score: 42,
             });
             
-            expect(record1.has('foo')).to.be.true;
+            expect(record1.has('name')).to.be.true;
         });
     });
     
@@ -241,7 +244,7 @@ describe('Record', () => {
                 score: 42,
             });
             
-            expect(record1.get('foo')).to.equal(42);
+            expect(record1.get('name')).to.equal('John');
         });
     });
 });

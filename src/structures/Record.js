@@ -10,6 +10,9 @@ import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
+// Note: it seems we cannot constrain the property type. Using an intersection type doesn't do what
+// we might expect for `T : PropertyT`, flow will instead attempt to find one branch that satisfies
+// all properties in an instantiation of `T`.
 //type PropertyT = string | number | (Hashable & Equatable & JsonSerializable);
 type PropertyT = any;
 
@@ -30,7 +33,7 @@ export default class Record<T : { [string] : PropertyT }> implements Hashable, E
             });
         }
         
-        Object.assign(this, { properties });
+        this.properties = properties;
     }
     
     // $FlowFixMe
