@@ -6,9 +6,9 @@ A set of immutable ([persistent](https://en.wikipedia.org/wiki/Persistent_data_s
 
 ## Motivation
 
-This library is similar to existing libraries like [ImmutableJS](https://facebook.github.io/immutable-js). I created strux because none of the libraries I could find matched my needs. A few notable ways in which strux is different:
+This library is similar to existing libraries like [ImmutableJS](https://facebook.github.io/immutable-js). I created strux because none of the libraries I could find matched exactly what I was looking for. A few notable ways in which strux is different:
 
-* strux makes heavy use of modern JavaScript features like `Map` (for true ordered dictionaries, and efficient maps on arbitrary keys), and `WeakMap` (for caching).
+* strux makes heavy use of modern JavaScript features like `Map` (for true ordered maps, as well as support for arbitrary keys), and `WeakMap` (for efficient caching through object references).
 
 * We rely on flow for static type checking whenever possible. For example, rather than using runtime type checking of record types (like ImmutableJS `Record`), we rely on flow generics using `Record<T>` (where `T` is the record type).
 
