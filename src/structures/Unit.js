@@ -12,7 +12,7 @@ import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 const empty = {};
 
 // The empty value
-export default class Unit<T : Hashable & Equatable & JsonSerializable> implements Hashable, Equatable, JsonSerializable {
+export default class Unit implements Hashable, Equatable, JsonSerializable {
     constructor() {}
     
     // $FlowFixMe
