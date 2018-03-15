@@ -58,7 +58,7 @@ export default class Dictionary<A : EntryT> implements Hashable, Equatable, Json
                 if (typeof entry === 'object' && entry && entry.toJSON) {
                     return { ...acc, [entryName]: entry.toJSON() };
                 } else {
-                    return { ...acc, [entryName]: prop };
+                    return { ...acc, [entryName]: entry };
                 }
             }, {});
     }

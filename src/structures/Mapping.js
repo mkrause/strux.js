@@ -10,8 +10,8 @@ import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
-type KeyT = number | string | (Hashable & Equatable & JsonSerializable);
-type EntryT = number | string | (Hashable & Equatable & JsonSerializable);
+type KeyT = any; //number | string | (Hashable & Equatable & JsonSerializable);
+type EntryT = any; //number | string | (Hashable & Equatable & JsonSerializable);
 
 // A nonempty set of key-value pairs, where keys are symbols and values are of a fixed type `A`.
 export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatable, JsonSerializable {
@@ -47,13 +47,11 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
         // somewhat guaranteed (as of the ES6 spec), but it may not be the same as our original ordering.
         // See: https://stackoverflow.com/questions/5525795/does-javascript-guarantee-object-property-order
         return [...this.entries.entries()]
-            .reduce((acc, [key, entry] : [K, A]) => {
-                if (typeof entry === 'object' && entry && entry.toJSON) {
-                    return { ...acc, [key]: entry.toJSON() };
-                } else {
-                    return { ...acc, [key]: entry };
-                }
-            }, {});
+            .map(([key, entry]) => {
+                const keyAsJson = typeof key === 'object' && key && key.toJSON ? key.toJSON() : key;
+                const entryAsJson = typeof entry === 'object' && entry && entry.toJSON ? entry.toJSON() : entry;
+                return [keyAsJson, entryAsJson];
+            });
     }
     
     size() {
@@ -65,13 +63,13 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
     }
     get(key : K) {
         if (!this.entries.has(key)) {
-            throw new TypeError(`No such entry '${key}'`);
+            throw new TypeError(`No such entry '${JSON.stringify(key)}'`);
         }
         
         return this.entries.get(key);
     }
     
-    map<B : EntryT>(fn : (A, ?string) => B) : Mapping<K, B> {
+    map<B : EntryT>(fn : (A, ?K) => B) : Mapping<K, B> {
         return new Mapping(MapUtil.map(this.entries, fn));
     }
     // mapToArray(fn : *) { return MapUtil.values(this.map(fn).entries); }
