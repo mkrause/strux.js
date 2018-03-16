@@ -119,7 +119,7 @@ describe('Record', () => {
             // Update: numeric record keys are not allowed at the moment anyway, so these
             // cases have been commented out.
             
-            const record1 : Record<Person> = new Record({
+            const record1 = new Record({
                 //5: 41,
                 foo: 'hello',
                 bar: 42,
@@ -127,7 +127,7 @@ describe('Record', () => {
                 //0: 45,
             });
             
-            const record2 : Record<Person> = new Record({
+            const record2 = new Record({
                 //0: 45,
                 //1: 44,
                 //5: 41,
@@ -135,7 +135,7 @@ describe('Record', () => {
                 bar: 42,
             });
             
-            const record3 : Record<Person> = new Record({
+            const record3 = new Record({
                 //0: 45,
                 //1: 44,
                 //5: 41,

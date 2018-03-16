@@ -22,12 +22,12 @@ declare interface Class2 {
 declare export default class<T: {[_: string]: any}> implements Class0, Class1, Class2 {
 
   properties: T;
-  constructor(properties: mixed /* UNEXPECTED TYPE: ExistsT */): void;
+  constructor(properties: T): void;
   equals(other: Class0): boolean;
-  get(propertyName: string): any;
+  get(propertyName: string): ?mixed /* UNEXPECTED TYPE: EvalT */;
   has(propertyName: string): boolean;
   hash(): string;
   size(): number;
-  toJSON(): {[_: string]: any} | {[_: string]: mixed /* UNEXPECTED TYPE: EmptyT */};
+  toJSON(): mixed /* UNEXPECTED TYPE: EvalT */;
 }
 

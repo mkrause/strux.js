@@ -45,11 +45,11 @@ export default class Dictionary<A : EntryT> implements Hashable, Equatable, Json
         // Note: return another Map object (rather than a plain object), so that ordering is maintained
         return MapUtil.map(this.entries, hash);
     }
-    hash() { return hash(this); }
-    equals(other : Hashable) {
+    hash() : string { return hash(this); }
+    equals(other : Hashable) : boolean {
         return other instanceof Dictionary && hash(this) === hash(other);
     }
-    toJSON() {
+    toJSON() : { [string] : A } {
         // Note: returns an object, which influences the ordering of the entries. A particular order is still
         // somewhat guaranteed (as of the ES6 spec), but it may not be the same as our original ordering.
         // See: https://stackoverflow.com/questions/5525795/does-javascript-guarantee-object-property-order
@@ -63,14 +63,14 @@ export default class Dictionary<A : EntryT> implements Hashable, Equatable, Json
             }, {});
     }
     
-    size() {
+    size() : number {
         return this.entries.size;
     }
     
-    has(entryName : string) {
+    has(entryName : string) : boolean {
         return this.entries.has(entryName);
     }
-    get(entryName : string) {
+    get(entryName : string) : ?A {
         if (!this.entries.has(entryName)) {
             throw new TypeError(`No such entry '${entryName}'`);
         }

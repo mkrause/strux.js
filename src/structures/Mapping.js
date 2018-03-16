@@ -63,10 +63,7 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
     equals(other : Hashable) {
         return other instanceof Mapping && hash(this) === hash(other);
     }
-    toJSON() {
-        // Note: returns an object, which influences the ordering of the entries. A particular order is still
-        // somewhat guaranteed (as of the ES6 spec), but it may not be the same as our original ordering.
-        // See: https://stackoverflow.com/questions/5525795/does-javascript-guarantee-object-property-order
+    toJSON() : Array<[K, A]> {
         return [...this.entries.values()]
             .map(([key, entry]) => {
                 const keyAsJson = typeof key === 'object' && key && key.toJSON ? key.toJSON() : key;

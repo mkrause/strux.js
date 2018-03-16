@@ -20,7 +20,7 @@ type PropertyT = any;
 export default class Record<T : { [string] : PropertyT }> implements Hashable, Equatable, JsonSerializable {
     properties : T;
     
-    constructor(properties : *) {
+    constructor(properties : T) {
         if (Object.keys(properties).length === 0) {
             throw new TypeError(`Record cannot be empty`);
         }
@@ -53,11 +53,11 @@ export default class Record<T : { [string] : PropertyT }> implements Hashable, E
     [asHashable]() {
         return ObjectUtil.map(this.properties, hash);
     }
-    hash() { return hash(this); }
-    equals(other : Hashable) {
+    hash() : string { return hash(this); }
+    equals(other : Hashable) : boolean {
         return other instanceof Record && hash(this) === hash(other);
     }
-    toJSON() {
+    toJSON() : $ObjMap<T, <V>(v : $Keys<T>) => any> {
         return ObjectUtil.map(this.properties, prop => {
             if (typeof prop === 'object' && prop && prop.toJSON) {
                 return prop.toJSON();
@@ -67,14 +67,14 @@ export default class Record<T : { [string] : PropertyT }> implements Hashable, E
         });
     }
     
-    size() {
+    size() : number {
         return Object.keys(this.properties).length;
     }
     
-    has(propertyName : string) {
+    has(propertyName : string) : boolean {
         return this.properties.hasOwnProperty(propertyName);
     }
-    get(propertyName : string) {
+    get(propertyName : string) : ?$Values<T> {
         if (!this.properties.hasOwnProperty(propertyName)) {
             throw new TypeError(`No such property '${propertyName}'`);
         }

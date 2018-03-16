@@ -24,11 +24,11 @@ declare export default class<A: number | string | Class0 & Class1 & Class2> impl
   entries: Map<string, A>;
   constructor(entries: Map<string, A> | {+[_: string]: A}): void;
   equals(other: Class0): boolean;
-  get(entryName: string): void | mixed /* UNEXPECTED TYPE: EmptyT */ | number | string | Class0 & Class1 & Class2 | void;
+  get(entryName: string): ?A;
   has(entryName: string): boolean;
   hash(): string;
   map<B: number | string | Class0 & Class1 & Class2>(fn: (_: A, _: ?string) => B): default<B>;
   size(): number;
-  toJSON(): {} | {} | {} | {} | {} | {};
+  toJSON(): {[_: string]: A};
 }
 
