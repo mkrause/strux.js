@@ -193,15 +193,6 @@ describe('Dictionary', () => {
                 bar: 'hello',
             });
         });
-        
-        it('should return the entry value for an existing key', () => {
-            const dict1 = new Dictionary({
-                foo: 42,
-                bar: 'hello',
-            });
-            
-            expect(dict1.get('foo')).to.equal(42);
-        });
     });
     
     describe('size()', () => {

@@ -1,6 +1,6 @@
 {
     "name": "@mkrause/strux",
-    "version": "0.0.1",
+    "version": "0.0.0",
     "description": "Immutable data structures for JavaScript + flowtype.",
     "author": "mkrause",
     "license": "MIT",
@@ -32,6 +32,6 @@
         "chai": "^4.1.2"
     },
     "dependencies": {
-        "object-hash": "git+https://git@github.com/mkrause/object-hash.git"
+        "object-hash": "^1.3.0"
     }
 }

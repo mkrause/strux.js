@@ -8,13 +8,13 @@ A set of immutable ([persistent](https://en.wikipedia.org/wiki/Persistent_data_s
 
 This library is similar to existing libraries like [ImmutableJS](https://facebook.github.io/immutable-js). I created strux because none of the libraries I could find matched exactly what I was looking for. A few notable ways in which strux is different:
 
-* strux makes heavy use of modern JavaScript features like `Map` (for true ordered maps, as well as support for arbitrary keys), and `WeakMap` (for efficient caching through object references).
+* Strux makes heavy use of modern JavaScript features like `Map` (for true ordered maps, as well as support for arbitrary keys), and `WeakMap` (for efficient caching through object references).
 
 * We rely on flow for static type checking whenever possible. For example, rather than using runtime type checking of record types (like ImmutableJS `Record`), we rely on flow generics using `Record<T>` (where `T` is the record type).
 
 * Data types in strux are generally *nonempty* types. That is, they exclude the "empty" value of that type. For example, a dictionary with zero entries is not a valid instance of `Dictionary`, and an empty string is not a valid instance of `Text`. In more technical terms, we say that these types are [semigroups](https://en.wikipedia.org/wiki/Semigroup) rather than monoids. The reason we default to nonempty types is that it helps to prevent bugs caused by mishandling of edge cases. Expanding a nonempty type to a allow empty values is still easy, by using a maybe type (`?type` in flow).
 
-Unlike something like ImmutableJS, strux has not (yet) been optimized by any means. If you're working with large data sets, or have stringent performance requirements, you probably don't want to use library.
+Strux has not yet been fully optimized. If you're working with large data sets, or have stringent performance requirements, then this library may not fit your needs.
 
 
 ## Interfaces
@@ -82,7 +82,7 @@ count.valueOf(); // 42
 A record of type `T`. For example, to represent a person with a name field, and a numerical score:
 
 ```js
-type Person = { +name: string, +score: number };
+type Person = { +name : string, +score : number };
 const john : Record<Person> = new Record({ name: 'John', score: 42 });
 john.get('name'); // 'John'
 ```
@@ -105,7 +105,7 @@ count.toJSON(); // { john: 42, alice: 101 }
 A mapping from arbitrary keys (type `K`) to arbitrary values (type `V`). Keys are compared by value equality, rather than by reference. That means that two objects will refer to the same value, as long as they are equal.
 
 ```js
-type Person = { +name: string, +score: number };
+type Person = { +name : string, +score : number };
 const users = new Mapping([
     [{ id: 'john' }, new Record<Person>({ name: 'John', score: 42 })],
     [{ id: 'alice' }, new Record<Person>({ name: 'Alice', score: 101 })],

@@ -35,11 +35,10 @@ const options = {
     // the types of object themselves (by passing in a type discriminator to `hash()`).
     respectType: false,
     
-    // Do not sort Map and Set
-    unorderedSets: false,
-    
-    // Do not sort object properties
+    // Do not sort arrays, objects, or Map/Set
+    unorderedArrays: false,
     unorderedObjects: false,
+    unorderedSets: false,
 };
 
 const cache = new WeakMap();

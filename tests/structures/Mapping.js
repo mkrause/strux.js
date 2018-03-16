@@ -26,21 +26,30 @@ describe('Mapping', () => {
             }).to.throw(TypeError);
         });
         
-        it('should construct a Mapping from a nonempty object of entries', () => {
-            expect(() => {
-                const mapping1 = new Mapping({
-                    foo: 42,
-                    bar: 'hello',
-                });
-            }).to.not.throw();
-        });
-        
         it('should construct a Mapping from a nonempty Map', () => {
             expect(() => {
                 const mapping1 = new Mapping(new Map([
                     ['foo', 42],
                     [100, 'hello'],
                 ]));
+            }).to.not.throw();
+        });
+        
+        it('should construct a Mapping from a nonempty array of [key, value] pairs', () => {
+            expect(() => {
+                const mapping1 = new Mapping([
+                    ['foo', 42],
+                    [100, 'hello'],
+                ]);
+            }).to.not.throw();
+        });
+        
+        it('should construct a Mapping from a nonempty object of entries', () => {
+            expect(() => {
+                const mapping1 = new Mapping({
+                    foo: 42,
+                    bar: 'hello',
+                });
             }).to.not.throw();
         });
     });
@@ -55,7 +64,7 @@ describe('Mapping', () => {
                 bar: 'hello',
             });
             
-            expect(mapping1.hash()).to.equal('25eae5897603b2f97a67c0daf342953fc73a0f88');
+            expect(mapping1.hash()).to.equal('265e3c7904579da9238d433b6ea5d94d9df193fe');
         });
     });
     
@@ -182,7 +191,31 @@ describe('Mapping', () => {
     });
     
     describe('toJSON()', () => {
-        it('should return a JS array corresponding to the mapping entries', () => {
+        it('should return a JS array corresponding to the mapping entries (from Map)', () => {
+            const mapping1 = new Mapping(new Map([
+                ['foo', 42],
+                ['bar', 'hello'],
+            ]));
+            
+            expect(mapping1.toJSON()).to.deep.equal([
+                ['foo', 42],
+                ['bar', 'hello'],
+            ]);
+        });
+        
+        it('should return a JS array corresponding to the mapping entries (from array)', () => {
+            const mapping1 = new Mapping([
+                ['foo', 42],
+                ['bar', 'hello'],
+            ]);
+            
+            expect(mapping1.toJSON()).to.deep.equal([
+                ['foo', 42],
+                ['bar', 'hello'],
+            ]);
+        });
+        
+        it('should return a JS array corresponding to the mapping entries (from object)', () => {
             const mapping1 = new Mapping({
                 foo: 42,
                 bar: 'hello',
@@ -192,15 +225,6 @@ describe('Mapping', () => {
                 ['foo', 42],
                 ['bar', 'hello'],
             ]);
-        });
-        
-        it('should return the entry value for an existing key', () => {
-            const mapping1 = new Mapping({
-                foo: 42,
-                bar: 'hello',
-            });
-            
-            expect(mapping1.get('foo')).to.equal(42);
         });
     });
     
@@ -270,6 +294,15 @@ describe('Mapping', () => {
             });
             
             expect(mapping1.get('foo')).to.equal(42);
+        });
+        
+        it('should compare keys by value equality', () => {
+            const mapping1 = new Mapping([
+                [{ id: 'john' }, 42],
+                [{ id: 'alice' }, 101],
+            ]);
+            
+            expect(mapping1.get({ id: 'john' })).to.equal(42);
         });
     });
     

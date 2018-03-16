@@ -111,9 +111,6 @@ describe('Record', () => {
         // Record is supposed to be an ordered type. That is, the order of the properties
         // should be maintained.
         
-        // TODO: this test currently fails. The hashing library we use (object-hash) always sorts
-        // object properties before hashing, which means ordering is ignored. To fix this we will have
-        // to fork the library.
         it('should be maintained for plain objects as much as ES6 ordering is allowed', () => {
             // JS objects are (as of the ES6 spec) ordered, with the caveat that number-like keys
             // are ordered first. We want to maintain the order, upto the differences due to these rules.
@@ -167,15 +164,6 @@ describe('Record', () => {
                 name: 'John',
                 score: 42,
             });
-        });
-        
-        it('should return the property value for an existing key', () => {
-            const record1 : Record<Person> = new Record({
-                name: 'John',
-                score: 42,
-            });
-            
-            expect(record1.get('name')).to.equal('John');
         });
     });
     
