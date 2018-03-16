@@ -116,10 +116,9 @@ count.toJSON(); // { john: 42, alice: 101 }
 A mapping from arbitrary keys (type `K`) to arbitrary values (type `V`). Keys are compared by value equality, rather than by reference. That means that two objects will refer to the same value, as long as they are equal.
 
 ```js
-type Person = { +name : string, +score : number };
 const users = new Mapping([
-    [{ id: 'john' }, new Record<Person>({ name: 'John', score: 42 })],
-    [{ id: 'alice' }, new Record<Person>({ name: 'Alice', score: 101 })],
+    [{ id: 'john' }, new Record({ name: 'John', score: 42 })],
+    [{ id: 'alice' }, new Record({ name: 'Alice', score: 101 })],
 ]);
 users.get({ id: 'alice' }).get('score'); // 101
 ```
