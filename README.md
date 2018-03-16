@@ -111,9 +111,9 @@ scores.get('john'); // 42
 count.toJSON(); // { john: 42, alice: 101 }
 ```
 
-* `Mapping<K, V>`
+* `Mapping<K, A>`
 
-A mapping from arbitrary keys (type `K`) to arbitrary values (type `V`). Keys are compared by value equality, rather than by reference. That means that two objects will refer to the same value, as long as they are equal.
+A mapping from arbitrary keys (type `A`) to arbitrary values (type `V`). Keys are compared by value equality, rather than by reference. That means that two objects will refer to the same value, as long as they are equal.
 
 ```js
 const users = new Mapping([
