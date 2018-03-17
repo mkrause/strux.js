@@ -1,6 +1,5 @@
 [ignore]
 <PROJECT_ROOT>/dist/.*
-<PROJECT_ROOT>/type-definitions/.*
 
 [include]
 

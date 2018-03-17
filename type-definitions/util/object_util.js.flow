@@ -1,3 +1,0 @@
-// @flow
-
-declare export default {entries: <A>(obj: {[_: string]: A}) => Array<[string, A]>, map: <A, B>(obj: {[_: string]: A}, fn: (_: A, _: ?string) => B) => {[_: string]: B}, values: <A>(obj: {[_: string]: A}) => Array<A>};

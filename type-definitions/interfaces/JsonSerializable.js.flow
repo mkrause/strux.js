@@ -1,8 +1,0 @@
-// @flow
-
-declare interface Class0 {
-
-  toJSON(): any;
-}
-
-declare module.exports: {};

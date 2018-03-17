@@ -1,6 +1,0 @@
-// @flow
-
-import type {Hashable} from "../interfaces/Hashable.js";
-import hashObject from "object-hash";
-declare export var asHashable: string;
-declare export default function(value: any): string;
