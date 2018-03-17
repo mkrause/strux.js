@@ -346,5 +346,17 @@ describe('Mapping', () => {
                     .get({ id: 'john' }).score
             ).to.equal(999);
         });
+        
+        it('should not mutate the original', () => {
+            const mapping1 = new Mapping([
+                [{ id: 'john' }, { name: 'John', score: 42 }],
+                [{ id: 'alice' }, { name: 'Alice', score: 101 }],
+            ]);
+            
+            const mapping1Updated = mapping1
+                    .set({ id: 'john' }, { name: 'John', score: 999 });
+            
+            expect(mapping1.get({ id: 'john' }).score).to.not.equal(999);
+        });
     });
 });
