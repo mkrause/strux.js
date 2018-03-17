@@ -321,4 +321,30 @@ describe('Mapping', () => {
             ));
         });
     });
+    
+    describe('set()', () => {
+        it('should fail for a nonexistent key', () => {
+            const mapping1 = new Mapping([
+                [{ id: 'john' }, { name: 'John', score: 42 }],
+                [{ id: 'alice' }, { name: 'Alice', score: 101 }],
+            ]);
+            
+            expect(() => {
+                mapping1.get('nonexistent');
+            }).to.throw(TypeError);
+        });
+        
+        it('should update the entry for an existing key', () => {
+            const mapping1 = new Mapping([
+                [{ id: 'john' }, { name: 'John', score: 42 }],
+                [{ id: 'alice' }, { name: 'Alice', score: 101 }],
+            ]);
+            
+            expect(
+                mapping1
+                    .set({ id: 'john' }, { name: 'John', score: 999 })
+                    .get({ id: 'john' }).score
+            ).to.equal(999);
+        });
+    });
 });

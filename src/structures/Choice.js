@@ -1,2 +1,0 @@
-
-// TODO: experiment with $PropertyType

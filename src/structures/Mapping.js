@@ -3,6 +3,7 @@
 import env from '../util/env.js';
 import hash, { asHashable } from '../util/hash.js';
 import MapUtil from '../util/map_util.js';
+import ObjectUtil from '../util/object_util.js';
 import { isValidSymbol } from '../util/symbol.js';
 
 import type { Hashable } from '../interfaces/Hashable.js';
@@ -18,20 +19,11 @@ type EntryT = any;
 export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatable, JsonSerializable {
     _entries : Map<Hash, [K, A]>;
     
-    constructor(entries : Map<K, A> | Array<[K, A]> | { +[string] : A }) {
-        if (entries instanceof Map) {
+    constructor(entries : Iterable<[K, A]> | { [string] : A }) {
+        // $FlowFixMe: computed property
+        if (typeof entries[Symbol.iterator] === 'function') {
             if (entries.size === 0) {
                 throw new TypeError(`Mapping cannot be empty. Given an empty Map.`);
-            }
-            
-            this._entries = new Map(function*() {
-                for (const [key, value] of entries) {
-                    yield [hash(key), [key, value]];
-                }
-            }());
-        } else if (Array.isArray(entries)) {
-            if (entries.length === 0) {
-                throw new TypeError(`Mapping cannot be empty. Given an empty array.`);
             }
             
             this._entries = new Map(function*() {
@@ -44,9 +36,9 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
                 throw new TypeError(`Mapping cannot be empty. Given an empty object.`);
             }
             
-            this._entries = new Map(function*() {
-                // Type cast: assure flow that `K` = `string` in this case
-                const objectEntries : { [string] : A } = (Object.entries(entries) : any);
+            this._entries = new Map(function*() : Iterator<[Hash, [K, A]]> {
+                // Type cast: assure flow that `K` = string
+                const objectEntries : Array<[K, A]> = (ObjectUtil.entries(entries) : any);
                 for (const [key, value] of objectEntries) {
                     yield [hash(key), [key, value]];
                 }
@@ -54,7 +46,7 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
         }
     }
     
-    // $FlowFixMe
+    // $FlowFixMe: computed property key
     [asHashable]() {
         // Note: return another Map object (rather than a plain object), so that ordering is maintained
         return MapUtil.map(this._entries, ([key, entry], keyHash) => [keyHash, hash(entry)]);
@@ -76,13 +68,14 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
         return this._entries.size;
     }
     
-    // $FlowFixMe
-    *[Symbol.iterator]() : Generator<[K, A], void, void> {
+    // Note: have to use comment syntax for @@iterator, because the babel flow transform doesn't understand it
+    /*:: @@iterator() : Iterator<[K, A]> { return (this : any); }*/
+    // $FlowFixMe: computed property key
+    *[Symbol.iterator]() : Iterator<[K, A]> {
         for (const [keyHash, [key, value]] of this._entries) {
             yield [key, value];
         }
     }
-    // $FlowFixMe
     entries() { return [...this]; }
     
     has(key : K) : boolean {
@@ -94,14 +87,17 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
             throw new TypeError(`No such entry '${JSON.stringify(key)}'`);
         }
         
-        const entry : A = (this._entries.get(keyHash) : any); // Assure flow that the entry exists
-        return entry[1];
+        const [_, value] : [K, A] = (this._entries.get(keyHash) : any); // Assure flow that the entry exists
+        return value;
     }
     
     map<B : EntryT>(fn : (A, ?K) => B) : Mapping<K, B> {
-        return new Mapping(
-            [...this._entries.values()].map(([key, value]) => [key, fn(value)])
-        );
+        const entries = this._entries;
+        return new Mapping(function*() : Iterator<[K, B]> {
+            for (const [_, [key, value]] of entries) {
+                yield [key, fn(value)];
+            }
+        }());
     }
     // mapToArray(fn : *) { return TODO; }
     // mapToObject(fn : *) { return TODO; }
@@ -114,8 +110,7 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
         }
         
         const entries = this._entries;
-        // TODO: Mapping should accept an iterator (so we can skip the intermediate array)
-        return new Mapping([...function*() {
+        return new Mapping(function*() : Iterator<[K, A]> {
             for (const [curKeyHash, entry] of entries) {
                 if (curKeyHash === keyHash) {
                     yield [key, value];
@@ -123,6 +118,6 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
                     yield entry;
                 }
             }
-        }()]);
+        }());
     }
 }
