@@ -83,7 +83,7 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     
     // Manipulation
     
-    set<P : $Keys<T>>(propertyName : K, value : $ElementType<T, P>) : Record<T> {
+    set<P : $Keys<T>>(propertyName : P, value : $ElementType<T, P>) : Record<T> {
         if (!this.properties.hasOwnProperty(propertyName)) {
             throw new TypeError(`No such property '${propertyName}'`);
         }
@@ -104,7 +104,7 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     
     
     // Collection functions
-    // Treats this record as a collection (which is a little unnatural for a record type, but often convenient)
+    // Treats this record as a collection (which is a little unnatural for a record type, but often convenient).
     
     size() : number { return Object.keys(this.properties).length; }
     
