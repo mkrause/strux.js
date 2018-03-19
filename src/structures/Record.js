@@ -96,15 +96,15 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
         }
     }
     
-    // Note: we cannot rely derive the target object type further than we do here (`PropertyT`), because all
-    // information we are given is one function's return type.
-    mapToObject(fn : ($Values<T>, ?K) => PropertyT) : $ObjMap<T, ($Values<T>) => PropertyT> {
+    // Note: we are forced to simplify the type of the resulting object type to have all values of one
+    // type `A`. This is because all the information we have is a function with return type `A`.
+    mapToObject<A : PropertyT>(fn : ($Values<T>, ?K) => A) : $ObjMap<T, ($Values<T>) => A> {
         return [...this]
             .map(([key, value]) => [key, fn(value, key)])
             .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
     }
     
-    map(fn : ($Values<T>, ?K) => PropertyT) : Record<$ObjMap<T, ($Values<T>) => PropertyT>> {
+    map<A : PropertyT>(fn : ($Values<T>, ?K) => A) : Record<$ObjMap<T, ($Values<T>) => A>> {
         return new Record(this.mapToObject(fn));
     }
     // mapToArray<B>(fn : (A, ?K) => B) : Array<[K, B]> { return [...this].map(fn); }
