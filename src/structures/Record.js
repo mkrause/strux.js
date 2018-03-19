@@ -122,7 +122,7 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     
     // Note: we are forced to simplify the type of the resulting object type to have all values of one
     // type `A`. This is because all the information we have is a function with return type `A`.
-    mapToObject<A>(fn : ($Values<T>, ?K) => A) : $ObjMap<T, ($Values<T>) => A> {
+    mapToObject<A : mixed>(fn : ($Values<T>, ?K) => A) : $ObjMap<T, ($Values<T>) => A> {
         return [...this]
             .map(([key, value]) => [key, fn(value, key)])
             .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -131,11 +131,11 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     map<A : PropertyT>(fn : ($Values<T>, ?K) => A) : Record<$ObjMap<T, ($Values<T>) => A>> {
         return new Record(this.mapToObject(fn));
     }
-    mapToArray<A : PropertyT>(fn : ($Values<T>, ?K) => A) : Array<[K, A]> {
+    mapToArray<A : mixed>(fn : ($Values<T>, ?K) => A) : Array<A> {
         return [...this]
-            .map(([key, value]) => [key, fn(value, key)]);
+            .map(([key, value]) => fn(value, key));
     }
-    mapToString<A : PropertyT>(separator : string, fn : ($Values<T>, ?K) => A) : string {
+    mapToString<A : mixed>(separator : string, fn : ($Values<T>, ?K) => A) : string {
         return this.mapToArray(fn).join(separator);
     }
 }
