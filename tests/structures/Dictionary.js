@@ -11,7 +11,7 @@ describe('Dictionary', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             expect(() => {
-                // $FlowFixMe
+                // $ExpectError
                 const dict1 = new Dictionary();
             }).to.throw(TypeError);
         });

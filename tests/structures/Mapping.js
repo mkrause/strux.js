@@ -11,7 +11,7 @@ describe('Mapping', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             expect(() => {
-                // $FlowFixMe
+                // $ExpectError
                 const mapping1 = new Mapping();
             }).to.throw(TypeError);
         });

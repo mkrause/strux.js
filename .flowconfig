@@ -28,3 +28,6 @@ experimental.const_params=true
 
 # Inform flow that babel will "use strict" to all transpiled files
 module.use_strict=true
+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment=\\(.\\|\n\\)*\\$ExpectError

@@ -12,7 +12,7 @@ describe('Text', () => {
         // Statically checked
         //it('should fail on empty arguments', () => {
         //    expect(() => {
-        //        // $FlowFixMe
+        //        // $ExpectError
         //        const text = new Text();
         //    }).to.throw(TypeError);
         //});

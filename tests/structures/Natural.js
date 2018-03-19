@@ -12,7 +12,7 @@ describe('Natural', () => {
         // Statically checked
         //it('should fail on empty arguments', () => {
         //    expect(() => {
-        //        // $FlowFixMe
+        //        // $ExpectError
         //        const text = new Natural();
         //    }).to.throw(TypeError);
         //});

@@ -13,7 +13,7 @@ describe('Record', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             expect(() => {
-                // $FlowFixMe
+                // $ExpectError
                 const record1 = new Record();
             }).to.throw(TypeError);
         });
@@ -201,6 +201,7 @@ describe('Record', () => {
                 score: 42,
             });
             
+            // $ExpectError
             expect(record1.has('nonexistent')).to.be.false;
         });
         
@@ -222,6 +223,7 @@ describe('Record', () => {
             });
             
             expect(() => {
+                // $ExpectError
                 record1.get('nonexistent');
             }).to.throw(TypeError);
         });
@@ -246,4 +248,32 @@ describe('Record', () => {
     //         expect(record1.name).to.equal('John');
     //     });
     // });
+    
+    describe('set()', () => {
+        it('should fail for a nonexisting key', () => {
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
+            });
+            
+            expect(() => {
+                // $ExpectError
+                record1.set('nonexistent', 43);
+            }).to.throw(TypeError);
+        });
+        
+        it('should return a record with the updated property for an existing key', () => {
+            const record1 : Record<Person> = new Record({
+                name: 'John',
+                score: 42,
+            });
+            
+            expect(record1.set('score', 43)).to.satisfy(subject => subject.equals(
+                new Record({
+                    name: 'John',
+                    score: 43,
+                })
+            ));
+        });
+    });
 });

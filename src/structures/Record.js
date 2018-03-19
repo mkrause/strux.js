@@ -66,10 +66,13 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
         });
     }
     
-    has(propertyName : string) : boolean {
+    
+    // Access
+    
+    has(propertyName : $Keys<T>) : boolean {
         return this.properties.hasOwnProperty(propertyName);
     }
-    get(propertyName : string) : ?$Values<T> {
+    get<P : $Keys<T>>(propertyName : P) : $ElementType<T, P> {
         if (!this.properties.hasOwnProperty(propertyName)) {
             throw new TypeError(`No such property '${propertyName}'`);
         }
@@ -78,12 +81,30 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     }
     
     
-    // Collection functions
-    // Treats this record as a collection (which is a little unnatural but often convenient)
+    // Manipulation
     
+    set<P : $Keys<T>>(propertyName : K, value : $ElementType<T, P>) : Record<T> {
+        if (!this.properties.hasOwnProperty(propertyName)) {
+            throw new TypeError(`No such property '${propertyName}'`);
+        }
+        
+        return new Record({
+            ...this.properties,
+            [propertyName]: value,
+        });
+    }
+    
+    
+    // Conversion
+    
+    // Returns this record's properties as a collection (dictionary) of entries, with the order maintained.
     entries() : Dictionary<$Values<T>> {
         return new Dictionary(this.properties);
     }
+    
+    
+    // Collection functions
+    // Treats this record as a collection (which is a little unnatural for a record type, but often convenient)
     
     size() : number { return Object.keys(this.properties).length; }
     
@@ -107,6 +128,11 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     map<A : PropertyT>(fn : ($Values<T>, ?K) => A) : Record<$ObjMap<T, ($Values<T>) => A>> {
         return new Record(this.mapToObject(fn));
     }
-    // mapToArray<B>(fn : (A, ?K) => B) : Array<[K, B]> { return [...this].map(fn); }
-    // mapToString<B>(separator : string, fn : (A, ?K) => B) : string { this.mapToArray(fn).join(separator); }
+    mapToArray<A : PropertyT>(fn : ($Values<T>, ?K) => A) : Array<[K, A]> {
+        return [...this]
+            .map(([key, value]) => [key, fn(value, key)]);
+    }
+    mapToString<A : PropertyT>(separator : string, fn : ($Values<T>, ?K) => A) : string {
+        return this.mapToArray(fn).join(separator);
+    }
 }
