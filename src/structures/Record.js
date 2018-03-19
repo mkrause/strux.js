@@ -17,6 +17,9 @@ type PropertyT = void | null | boolean | string | number | (Hashable & Equatable
 
 // A record (set of properties), which is a valid subtype of the type `T`
 export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equatable, JsonSerializable {
+    // Note: because we store the properties as a JS object, the order is determined by the usual rules.
+    // That means that number-like keys get sorted first. For us, this doesn't really matter because
+    // number-like keys get rejected through the `isValidSymbol` check.
     properties : T;
     
     constructor(properties : T) {
