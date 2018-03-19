@@ -122,7 +122,7 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     
     // Note: we are forced to simplify the type of the resulting object type to have all values of one
     // type `A`. This is because all the information we have is a function with return type `A`.
-    mapToObject<A : PropertyT>(fn : ($Values<T>, ?K) => A) : $ObjMap<T, ($Values<T>) => A> {
+    mapToObject<A>(fn : ($Values<T>, ?K) => A) : $ObjMap<T, ($Values<T>) => A> {
         return [...this]
             .map(([key, value]) => [key, fn(value, key)])
             .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
