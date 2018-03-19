@@ -3,7 +3,7 @@
 import env from '../util/env.js';
 import hash, { asHashable } from '../util/hash.js';
 
-import type { Hashable } from '../interfaces/Hashable.js';
+import type { Hash, Hashable } from '../interfaces/Hashable.js';
 import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
@@ -24,8 +24,8 @@ export default class Text implements Hashable, Equatable, JsonSerializable {
     [asHashable]() {
         return this.value;
     }
-    hash() { return hash(this.value); }
-    equals(other : Hashable) { return other instanceof Text && this.value === other.value; }
+    hash() : Hash { return hash(this.value); }
+    equals(other : mixed) { return other instanceof Text && this.value === other.value; }
     
     toString() { return this.value; }
     // $FlowFixMe

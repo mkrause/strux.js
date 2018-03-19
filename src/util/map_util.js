@@ -4,7 +4,7 @@
 
 // Create a generator for an object's entries
 // https://stackoverflow.com/a/36644965/233884
-function* entries<A>(obj : { +[string] : A }) : Generator<[string, A], void, void> {
+function* entries<A>(obj : { +[string] : A }) : Iterator<[string, A]> {
     // Note: we don't check for `hasOwnProperty()`. We assume that there are no enumerable
     // properties in the object that we should ignore (see the SO link for discussion).
     for (let key in obj) {

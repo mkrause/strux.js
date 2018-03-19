@@ -3,7 +3,7 @@
 import env from '../util/env.js';
 import hash, { asHashable } from '../util/hash.js';
 
-import type { Hashable } from '../interfaces/Hashable.js';
+import type { Hash, Hashable } from '../interfaces/Hashable.js';
 import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
@@ -15,14 +15,14 @@ const empty = {};
 export default class Unit implements Hashable, Equatable, JsonSerializable {
     constructor() {}
     
-    // $FlowFixMe
+    // $FlowFixMe: computed property
     [asHashable]() {
         return null;
     }
-    hash() {
+    hash() : Hash {
         return hash(empty);
     }
-    equals(other : Hashable) {
+    equals(other : mixed) {
         return other instanceof Unit;
     }
     toJSON() {

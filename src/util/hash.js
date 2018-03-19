@@ -2,7 +2,7 @@
 
 import hashObject from 'object-hash';
 
-import type { Hashable } from '../interfaces/Hashable.js';
+import type { Hash, Hashable } from '../interfaces/Hashable.js';
 
 
 // export const asHashable = Symbol('asHashable');
@@ -11,15 +11,16 @@ export const asHashable = '__asHashable';
 
 /*
 Some notes on the `object-hash` library:
-  - Object keys are always sorted (so key order does not matter)
-  - Hashes are strings (rather than numerical hash codes)
+  - Uses a one-way hash function like sha1 to generate an effectively unique hash
   - Performance:
-    > Numerical hash codes may be faster.
+    > On node, uses the `crypto` module, which is fairly fast
+    > In the browser, has to use a polyfill, which is probably not so fast
+    > Numerical hash codes seem like they may be faster (intuitively, need to test)
 
 Alternatives:
   - ImmutableJS's hash utility
     https://github.com/facebook/immutable-js/blob/master/src/Hash.js
-    > Numerical hash codes; very fast; however not globally unique (duplicates are common)
+    > Numerical hash codes; very fast; however not globally unique (collisions are expected and common)
   - https://www.npmjs.com/package/node-object-hash
     > Doesn't work in the browser (?)
   - https://www.npmjs.com/package/oid
@@ -28,41 +29,47 @@ Alternatives:
 */
 
 const options = {
-    algorithm: 'sha1',
+    algorithm: 'sha1', // For debugging: `passthrough`
     encoding: 'hex',
     
     // Do not inspect the prototype when hashing. This means that the caller is expected to disambiguate
     // the types of object themselves (by passing in a type discriminator to `hash()`).
     respectType: false,
     
-    // Do not sort arrays, objects, or Map/Set
+    // Do not sort arrays, objects, or Map/Set (i.e. maintain the ordering)
     unorderedArrays: false,
     unorderedObjects: false,
     unorderedSets: false,
 };
 
-const cache = new WeakMap();
+const cache : WeakMap<mixed, Hash> = new WeakMap();
 
-export default (value : any) : string => {
+export default (value : mixed) : Hash => {
     if (value === undefined) {
-        // object-hash does not accept undefined (and that makes sense)
+        // object-hash does not accept undefined
+        // This makes sense, `undefined` should be considered the lack of an argument.
         throw new TypeError('Cannot hash `undefined`');
     }
     
+    let valueHashable = value;
     if (typeof value === 'object' && value !== null && asHashable in value) {
-        value = value[asHashable]();
+        if (typeof value[asHashable] !== 'function') {
+            throw new TypeError('asHashable should be a function');
+        }
+        const getAsHashable : () => mixed = value[asHashable];
+        valueHashable = getAsHashable.call(value);
     }
     
-    if (typeof value === 'object') {
-        if (cache.has(value)) {
-            return (cache.get(value) : any); // Type cast (assure flow that the cache entry exists)
+    if (typeof valueHashable === 'object') {
+        if (cache.has(valueHashable)) {
+            return (cache.get(valueHashable) : any); // Type cast (assure flow that the cache entry exists)
         }
     }
     
-    const hash = hashObject(value, options);
+    const hash = hashObject(valueHashable, options);
     
-    if (typeof value === 'object') {
-        cache.set(value, hash);
+    if (typeof valueHashable === 'object') {
+        cache.set(valueHashable, hash);
     }
     
     return hash;

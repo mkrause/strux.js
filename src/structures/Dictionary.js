@@ -5,12 +5,12 @@ import hash, { asHashable } from '../util/hash.js';
 import MapUtil from '../util/map_util.js';
 import { isValidSymbol } from '../util/symbol.js';
 
-import type { Hashable } from '../interfaces/Hashable.js';
+import type { Hash, Hashable } from '../interfaces/Hashable.js';
 import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
-type EntryT = number | string | (Hashable & Equatable & JsonSerializable);
+type EntryT = void | null | boolean | string | number | (Hashable & Equatable & JsonSerializable);
 
 // A nonempty set of key-value pairs, where keys are symbols and values are of a fixed type `A`.
 export default class Dictionary<A : EntryT> implements Hashable, Equatable, JsonSerializable {
@@ -45,8 +45,8 @@ export default class Dictionary<A : EntryT> implements Hashable, Equatable, Json
         // Note: return another Map object (rather than a plain object), so that ordering is maintained
         return MapUtil.map(this.entries, hash);
     }
-    hash() : string { return hash(this); }
-    equals(other : Hashable) : boolean {
+    hash() : Hash { return hash(this); }
+    equals(other : mixed) : boolean {
         return other instanceof Dictionary && hash(this) === hash(other);
     }
     toJSON() : { [string] : A } {

@@ -1,6 +1,10 @@
 //@flow
 
-import hash from './util/hash.js';
+import hash, { asHashable } from './util/hash.js';
+
+import type { Hashable } from './interfaces/Hashable.js';
+import type { Equatable } from './interfaces/Equatable.js';
+import type { JsonSerializable } from './interfaces/JsonSerializable.js';
 
 import Unit from './structures/Unit.js';
 import Text from './structures/Text.js';
@@ -10,7 +14,11 @@ import Record from './structures/Record.js';
 import Mapping from './structures/Mapping.js';
 
 
-export { hash };
+export { hash, asHashable };
+
+export type { Hashable };
+export type { Equatable };
+export type { JsonSerializable };
 
 export {
     Unit,

@@ -1,5 +1,5 @@
 // @flow
 
 export interface JsonSerializable {
-    toJSON() : any;
+    toJSON() : mixed;
 }

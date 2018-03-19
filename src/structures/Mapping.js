@@ -6,12 +6,11 @@ import MapUtil from '../util/map_util.js';
 import ObjectUtil from '../util/object_util.js';
 import { isValidSymbol } from '../util/symbol.js';
 
-import type { Hashable } from '../interfaces/Hashable.js';
+import type { Hash, Hashable } from '../interfaces/Hashable.js';
 import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
 
-type Hash = string;
 type KeyT = any;
 type EntryT = any;
 
@@ -22,15 +21,15 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
     constructor(entries : Iterable<[K, A]> | { [string] : A }) {
         // $FlowFixMe: computed property
         if (typeof entries[Symbol.iterator] === 'function') {
-            if (entries.size === 0) {
-                throw new TypeError(`Mapping cannot be empty. Given an empty Map.`);
-            }
-            
             this._entries = new Map(function*() {
                 for (const [key, value] of entries) {
                     yield [hash(key), [key, value]];
                 }
             }());
+            
+            if (this._entries.size === 0) {
+                throw new TypeError(`Mapping cannot be empty. Given an iterable with zero elements.`);
+            }
         } else {
             if (Object.keys(entries).length === 0) {
                 throw new TypeError(`Mapping cannot be empty. Given an empty object.`);
@@ -51,8 +50,8 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
         // Note: return another Map object (rather than a plain object), so that ordering is maintained
         return MapUtil.map(this._entries, ([key, entry], keyHash) => [keyHash, hash(entry)]);
     }
-    hash() { return hash(this); }
-    equals(other : Hashable) {
+    hash() : Hash { return hash(this); }
+    equals(other : mixed) {
         return other instanceof Mapping && hash(this) === hash(other);
     }
     toJSON() : Array<[K, A]> {
@@ -76,7 +75,7 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
             yield [key, value];
         }
     }
-    entries() { return [...this]; }
+    entries() : Array<[K, A]> { return [...this]; }
     
     has(key : K) : boolean {
         return this._entries.has(hash(key));
@@ -99,9 +98,13 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
             }
         }());
     }
-    // mapToArray(fn : *) { return TODO; }
+    mapToArray<B>(fn : (A, ?K) => B) : Array<B> {
+        return this.entries().map(([key, value]) => fn(value, key));
+    }
+    mapToString<B>(separator : string, fn : (A, ?K) => B) : string {
+        return this.mapToArray(fn).join(separator);
+    }
     // mapToObject(fn : *) { return TODO; }
-    // mapToString(separator : string, fn : *) { return TODO; }
     
     set(key : K, value : A) : Mapping<K, A> {
         const keyHash = hash(key);
