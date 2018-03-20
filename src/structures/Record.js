@@ -25,20 +25,22 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     properties : T;
     
     // Optional: create a record with direct property access. Requires you to use `RecordOf<T>`
-    // as the type, instead of just `Record<T>`.
+    // as the type, instead of just `Record<T>`. Only works for property names that are not already
+    // on Record's prototype.
     static of<T : { +[K] : PropertyT }>(properties : $Shape<T>) : RecordOf<T> {
         const record : any = new Record(properties);
         
-        for (const entryName of Object.keys(properties)) {
-            if (entryName in this) {
+        for (const propertyName of Object.keys(properties)) {
+            if (propertyName in record) {
                 // Ignore keys that already exist
                 continue;
             }
             
-            // Object.defineProperty(this, entryName, {
-            //     get: () => this.properties[entryName],
+            // Object.defineProperty(this, propertyName, {
+            //     get: () => this.properties[propertyName],
             // });
-            record[entryName] = record.properties[entryName];
+            
+            record[propertyName] = record.properties[propertyName];
         }
         
         return record;

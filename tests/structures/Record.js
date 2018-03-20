@@ -239,7 +239,19 @@ describe('Record', () => {
         });
     });
     
-    describe('getters', () => {
+    describe('of()', () => {
+        it('should not allow direct property access to property names that conflict with the prototype', () => {
+            type PersonWithConflict = { name : string, score : number, get : string };
+            const record1 : RecordOf<Person> = Record.of({
+                name: 'John',
+                score: 42,
+                get: 'xyz',
+            });
+            
+            // `get` conflicts with the method `get`
+            expect(record1.get).to.not.equal('xyz');
+        });
+        
         it('should allow direct property access to nonconflicting property names', () => {
             const record1 : RecordOf<Person> = Record.of({
                 name: 'John',
