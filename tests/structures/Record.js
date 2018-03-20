@@ -5,6 +5,7 @@ declare var it: any;
 import chai, { assert, expect } from 'chai';
 
 import Record from '../../src/structures/Record.js';
+import type { RecordOf } from '../../src/structures/Record.js';
 
 
 type Person = { name : string, score : number };
@@ -238,16 +239,16 @@ describe('Record', () => {
         });
     });
     
-    // describe('getters', () => {
-    //     it('should allow direct property access to nonconflicting property names', () => {
-    //         const record1 : Record<Person> = new Record({
-    //             name: 'John',
-    //             score: 42,
-    //         });
+    describe('getters', () => {
+        it('should allow direct property access to nonconflicting property names', () => {
+            const record1 : RecordOf<Person> = Record.of({
+                name: 'John',
+                score: 42,
+            });
             
-    //         expect(record1.name).to.equal('John');
-    //     });
-    // });
+            expect(record1.name).to.equal('John');
+        });
+    });
     
     describe('set()', () => {
         it('should fail for a nonexisting key', () => {

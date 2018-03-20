@@ -15,6 +15,8 @@ import Dictionary from './Dictionary.js';
 type K = string; // Key type
 type PropertyT = void | null | boolean | string | number | (Hashable & Equatable & JsonSerializable);
 
+export type RecordOf<T : { +[K] : PropertyT }> = Record<T> & T;
+
 // A record (set of properties), which is a valid subtype of the type `T`
 export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equatable, JsonSerializable {
     // Note: because we store the properties as a JS object, the order is determined by the usual rules.
@@ -22,7 +24,27 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     // number-like keys get rejected through the `isValidSymbol` check.
     properties : T;
     
-    constructor(properties : T) {
+    // Optional: create a record with direct property access. Requires you to use `RecordOf<T>`
+    // as the type, instead of just `Record<T>`.
+    static of<T : { +[K] : PropertyT }>(properties : $Shape<T>) : RecordOf<T> {
+        const record : any = new Record(properties);
+        
+        for (const entryName of Object.keys(properties)) {
+            if (entryName in this) {
+                // Ignore keys that already exist
+                continue;
+            }
+            
+            // Object.defineProperty(this, entryName, {
+            //     get: () => this.properties[entryName],
+            // });
+            record[entryName] = record.properties[entryName];
+        }
+        
+        return record;
+    }
+    
+    constructor(properties : $Shape<T>) {
         if (Object.keys(properties).length === 0) {
             throw new TypeError(`Record cannot be empty`);
         }
@@ -36,19 +58,6 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
         }
         
         this.properties = properties;
-        
-        //XXX flow doesn't accept adding dynamic properties
-        // Define getters for all properties (to allow using `entity.foo` instead of `entity.get('foo')`)
-        // for (const entryName of Object.keys(properties)) {
-        //     if (entryName in this) {
-        //         // Ignore keys that already exist
-        //         continue;
-        //     }
-        //     
-        //     Object.defineProperty(this, entryName, {
-        //         get: () => this.properties[entryName],
-        //     });
-        // }
     }
     
     // $FlowFixMe: computed property
