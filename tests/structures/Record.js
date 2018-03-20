@@ -248,7 +248,7 @@ describe('Record', () => {
                 get: 'xyz',
             });
             
-            // `get` conflicts with the method `get`
+            // Property name `get` conflicts with the method `get()`
             expect(record1.get).to.not.equal('xyz');
         });
         
