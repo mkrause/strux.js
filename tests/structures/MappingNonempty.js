@@ -4,10 +4,10 @@ declare var it: any;
 
 import chai, { assert, expect } from 'chai';
 
-import Mapping from '../../src/structures/Mapping.js';
+import Mapping from '../../src/structures/MappingNonempty.js';
 
 
-describe('Mapping', () => {
+describe('MappingNonempty', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             expect(() => {
@@ -16,14 +16,14 @@ describe('Mapping', () => {
             }).to.throw(TypeError);
         });
         
-        it('should allow the construction of an empty Mapping', () => {
+        it('should not allow the construction of an empty Mapping', () => {
             expect(() => {
                 const mapping1 = new Mapping({});
-            }).to.not.throw(TypeError);
+            }).to.throw(TypeError);
             
             expect(() => {
                 const mapping1 = new Mapping(new Map());
-            }).to.not.throw(TypeError);
+            }).to.throw(TypeError);
         });
         
         it('should construct a Mapping from a nonempty Map', () => {

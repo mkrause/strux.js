@@ -4,10 +4,10 @@ declare var it: any;
 
 import chai, { assert, expect } from 'chai';
 
-import Dictionary from '../../src/structures/Dictionary.js';
+import Dictionary from '../../src/structures/DictionaryNonempty.js';
 
 
-describe('Dictionary', () => {
+describe('DictionaryNonempty', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             // Statically checked
@@ -17,14 +17,14 @@ describe('Dictionary', () => {
             } catch (e) {}
         });
         
-        it('should allow the construction of an empty Dictionary', () => {
+        it('should not allow the construction of an empty Dictionary', () => {
             expect(() => {
                 const dict1 = new Dictionary({});
-            }).to.not.throw(TypeError);
+            }).to.throw(TypeError);
             
             expect(() => {
                 const dict1 = new Dictionary(new Map());
-            }).to.not.throw(TypeError);
+            }).to.throw(TypeError);
         });
         
         it('should construct a Dictionary from a nonempty object of entries', () => {

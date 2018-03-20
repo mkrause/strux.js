@@ -4,17 +4,17 @@ declare var it: any;
 
 import chai, { assert, expect } from 'chai';
 
-import Natural from '../../src/structures/Natural.js';
+import Natural from '../../src/structures/NaturalNonempty.js';
 
 
-describe('Natural', () => {
+describe('NaturalNonempty', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
-            // Statically checked
-            try {
-                // $ExpectError
-                const nat = new Natural();
-            } catch (e) {}
+           // Statically checked
+           try {
+               // $ExpectError
+               const nat = new Natural();
+           } catch (e) {}
         });
         
         it('should fail when given a non-integer number', () => {
@@ -35,36 +35,22 @@ describe('Natural', () => {
             }).to.throw(TypeError);
         });
         
+        it('should fail when given +0', () => {
+            expect(() => {
+                const nat = new Natural(+0);
+            }).to.throw(TypeError);
+        });
+        
+        it('should fail when given -0', () => {
+            expect(() => {
+                const nat = new Natural(-0);
+            }).to.throw(TypeError);
+        });
+        
         it('should fail when given a negative number', () => {
             expect(() => {
                 const nat = new Natural(-1);
             }).to.throw(TypeError);
-        });
-        
-        
-        it('should construct a Natural instance representing zero when given +0', () => {
-            expect(() => {
-                const nat = new Natural(+0);
-            }).to.not.throw(TypeError);
-            
-            const nat = new Natural(+0);
-            expect(nat.valueOf()).to.equal(0);
-        });
-        
-        it('should construct a Natural instance representing zero when given -0', () => {
-            expect(() => {
-                const nat = new Natural(-0);
-            }).to.not.throw(TypeError);
-            
-            const nat = new Natural(+0);
-            expect(nat.valueOf()).to.equal(0);
-        });
-        
-        it('should not distinguish between +0 and -0', () => {
-            const zeroPos = new Natural(+0);
-            const zeroNeg = new Natural(-0);
-            
-            expect(zeroPos).to.satisfy(subject => subject.equals(zeroNeg));
         });
         
         it('should construct a Natural instance from a natural JS number', () => {
@@ -87,17 +73,17 @@ describe('Natural', () => {
     
     describe('equals()', () => {
         it('should not equal a Natural instance with a different value', () => {
-            const text1 = new Natural(42);
-            const text2 = new Natural(43);
+            const nat1 = new Natural(42);
+            const nat2 = new Natural(43);
             
-            expect(text1).to.not.satisfy(subject => subject.equals(text2));
+            expect(nat1).to.not.satisfy(subject => subject.equals(nat2));
         });
         
         it('should equal a Natural instance with an equal value', () => {
-            const text1 = new Natural(42);
-            const text2 = new Natural(42);
+            const nat1 = new Natural(42);
+            const nat2 = new Natural(42);
             
-            expect(text1).to.satisfy(subject => subject.equals(text2));
+            expect(nat1).to.satisfy(subject => subject.equals(nat2));
         });
     });
     

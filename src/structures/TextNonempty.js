@@ -13,6 +13,10 @@ export default class Text implements Hashable, Equatable, JsonSerializable {
     value : string;
     
     constructor(value : string) {
+        if (value === "") {
+            throw new TypeError("Text value cannot be empty");
+        }
+        
         this.value = value;
     }
     

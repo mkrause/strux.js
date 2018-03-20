@@ -4,15 +4,21 @@ declare var it: any;
 
 import chai, { assert, expect } from 'chai';
 
-import Text from '../../src/structures/Text.js';
+import Text from '../../src/structures/TextNonempty.js';
 
 
-describe('Text', () => {
+describe('TextNonempty', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             // Statically checked
             // $ExpectError
             const text = new Text();
+        });
+        
+        it('should fail when given an empty string', () => {
+            expect(() => {
+                const text = new Text("");
+            }).to.throw(TypeError);
         });
         
         it('should construct a Text instance from a nonempty JS string', () => {

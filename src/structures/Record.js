@@ -9,7 +9,7 @@ import type { Hash, Hashable } from '../interfaces/Hashable.js';
 import type { Equatable } from '../interfaces/Equatable.js';
 import type { JsonSerializable } from '../interfaces/JsonSerializable.js';
 
-import Dictionary from './Dictionary.js';
+import Dictionary from './DictionaryNonempty.js';
 
 
 type K = string; // Key type
@@ -17,7 +17,8 @@ type PropertyT = void | null | boolean | string | number | (Hashable & Equatable
 
 export type RecordOf<T : { +[K] : PropertyT }> = Record<T> & T;
 
-// A record (set of properties), which is a valid subtype of the type `T`
+// A record (set of properties), which is a valid subtype of the type `T`. Records must be
+// nonemty, i.e. they must have at least one property.
 export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equatable, JsonSerializable {
     // Note: because we store the properties as a JS object, the order is determined by the usual rules.
     // That means that number-like keys get sorted first. For us, this doesn't really matter because

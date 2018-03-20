@@ -26,7 +26,15 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
                     yield [hash(key), [key, value]];
                 }
             }());
+            
+            if (this._entries.size === 0) {
+                throw new TypeError(`Mapping cannot be empty. Given an iterable with zero elements.`);
+            }
         } else {
+            if (Object.keys(entries).length === 0) {
+                throw new TypeError(`Mapping cannot be empty. Given an empty object.`);
+            }
+            
             this._entries = new Map(function*() : Iterator<[Hash, [K, A]]> {
                 // Type cast: assure flow that `K` = string
                 const objectEntries : Array<[K, A]> = (ObjectUtil.entries(entries) : any);

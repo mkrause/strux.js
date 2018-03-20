@@ -18,8 +18,16 @@ export default class Dictionary<A : EntryT> implements Hashable, Equatable, Json
     
     constructor(entries : Map<string, A> | { +[string] : A }) {
         if (entries instanceof Map) {
+            if (entries.size === 0) {
+                throw new TypeError(`Dictionary cannot be empty. Given an empty Map.`);
+            }
+            
             this.entries = entries;
         } else {
+            if (Object.keys(entries).length === 0) {
+                throw new TypeError(`Dictionary cannot be empty. Given an empty object.`);
+            }
+            
             this.entries = MapUtil.fromObject(entries);
         }
         

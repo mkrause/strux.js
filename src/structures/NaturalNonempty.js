@@ -25,6 +25,10 @@ export default class Natural implements Hashable, Equatable, JsonSerializable {
             throw new TypeError(`Natural must be positive, given '${value}'`);
         }
         
+        if (value === 0) {
+            throw new TypeError(`Natural cannot be zero, given '${value}'`);
+        }
+        
         this.value = value;
     }
     
