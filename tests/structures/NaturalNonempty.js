@@ -12,7 +12,7 @@ describe('NaturalNonempty', () => {
         it('should fail on empty arguments', () => {
            // Statically checked
            try {
-               // $ExpectError
+               // $FlowFixMe
                const nat = new Natural();
            } catch (e) {}
         });

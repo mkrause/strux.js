@@ -103,7 +103,8 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
             throw new TypeError(`No such property '${propertyName}'`);
         }
         
-        return new Record({
+        const self = this.constructor;
+        return new self({
             ...this.properties,
             [propertyName]: value,
         });
@@ -141,7 +142,8 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     }
     
     map<A : PropertyT>(fn : ($Values<T>, ?K) => A) : Record<$ObjMap<T, ($Values<T>) => A>> {
-        return new Record(this.mapToObject(fn));
+        const self = this.constructor;
+        return new self(this.mapToObject(fn));
     }
     mapToArray<A : mixed>(fn : ($Values<T>, ?K) => A) : Array<A> {
         return [...this]

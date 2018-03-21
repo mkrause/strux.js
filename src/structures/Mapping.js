@@ -67,7 +67,7 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
             yield [key, value];
         }
     }
-    entries() : Array<[K, A]> { return [...this]; }
+    entriesAsArray() : Array<[K, A]> { return [...this]; }
     
     has(key : K) : boolean {
         return this._entries.has(hash(key));
@@ -91,7 +91,7 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
         }());
     }
     mapToArray<B>(fn : (A, ?K) => B) : Array<B> {
-        return this.entries().map(([key, value]) => fn(value, key));
+        return this.entriesAsArray().map(([key, value]) => fn(value, key));
     }
     mapToString<B>(separator : string, fn : (A, ?K) => B) : string {
         return this.mapToArray(fn).join(separator);

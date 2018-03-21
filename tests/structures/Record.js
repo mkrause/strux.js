@@ -14,7 +14,7 @@ describe('Record', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             expect(() => {
-                // $ExpectError
+                // $FlowFixMe
                 const record1 = new Record();
             }).to.throw(TypeError);
         });
@@ -202,7 +202,7 @@ describe('Record', () => {
                 score: 42,
             });
             
-            // $ExpectError
+            // $FlowFixMe
             expect(record1.has('nonexistent')).to.be.false;
         });
         
@@ -224,7 +224,7 @@ describe('Record', () => {
             });
             
             expect(() => {
-                // $ExpectError
+                // $FlowFixMe
                 record1.get('nonexistent');
             }).to.throw(TypeError);
         });
@@ -270,7 +270,7 @@ describe('Record', () => {
             });
             
             expect(() => {
-                // $ExpectError
+                // $FlowFixMe
                 record1.set('nonexistent', 43);
             }).to.throw(TypeError);
         });

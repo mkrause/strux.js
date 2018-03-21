@@ -11,7 +11,7 @@ describe('TextNonempty', () => {
     describe('constructor', () => {
         it('should fail on empty arguments', () => {
             // Statically checked
-            // $ExpectError
+            // $FlowFixMe
             const text = new Text();
         });
         

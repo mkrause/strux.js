@@ -17,6 +17,8 @@ import Record from './structures/Record.js';
 import Mapping from './structures/Mapping.js';
 import MappingNonempty from './structures/MappingNonempty.js';
 
+import { isValidSymbol } from './util/symbol.js';
+
 
 export { hash, asHashable };
 
@@ -48,4 +50,6 @@ export default {
     Record,
     Mapping,
     MappingNonempty,
+    
+    isValidSymbol,
 };

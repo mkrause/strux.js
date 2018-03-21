@@ -12,7 +12,7 @@ describe('DictionaryNonempty', () => {
         it('should fail on empty arguments', () => {
             // Statically checked
             try {
-                // $ExpectError
+                // $FlowFixMe
                 const dict1 = new Dictionary();
             } catch (e) {}
         });
