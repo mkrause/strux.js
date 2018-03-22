@@ -142,7 +142,7 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
     }
     
     map<A : PropertyT>(fn : ($Values<T>, ?K) => A) : Record<$ObjMap<T, ($Values<T>) => A>> {
-        const self = this.constructor;
+        const self = (this.constructor : any);
         return new self(this.mapToObject(fn));
     }
     mapToArray<A : mixed>(fn : ($Values<T>, ?K) => A) : Array<A> {
