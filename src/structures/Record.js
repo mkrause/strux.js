@@ -118,7 +118,7 @@ export default class Record<T : { +[K] : PropertyT }> implements Hashable, Equat
         return new Dictionary(this.properties);
     }
     
-    entriesAsArray() : Dictionary<$Values<T>> {
+    entriesAsArray() : Array<[K, $Values<T>]> {
         return [...this];
     }
     

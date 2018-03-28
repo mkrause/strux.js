@@ -15,6 +15,8 @@ type KeyT = any;
 type EntryT = any;
 
 // A nonempty set of key-value pairs, of type `K` and `A` respectively.
+// Note: we call this class `Mapping` so that (a) it doesn't conflict with the standard `Map` class,
+// and (b) to differentiate it from the `map` operation.
 export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatable, JsonSerializable {
     _entries : Map<Hash, [K, A]>;
     
@@ -84,9 +86,10 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
     
     map<B : EntryT>(fn : (A, ?K) => B) : Mapping<K, B> {
         const entries = this._entries;
-        return new Mapping(function*() : Iterator<[K, B]> {
+        const self = this.constructor;
+        return new self(function*() : Iterator<[K, B]> {
             for (const [_, [key, value]] of entries) {
-                yield [key, fn(value)];
+                yield [key, fn(value, key)];
             }
         }());
     }
@@ -105,7 +108,8 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
         }
         
         const entries = this._entries;
-        return new Mapping(function*() : Iterator<[K, A]> {
+        const self = this.constructor;
+        return new self(function*() : Iterator<[K, A]> {
             for (const [curKeyHash, entry] of entries) {
                 if (curKeyHash === keyHash) {
                     yield [key, value];
@@ -114,5 +118,12 @@ export default class Mapping<K : KeyT, A : EntryT> implements Hashable, Equatabl
                 }
             }
         }());
+    }
+    
+    keys() {
+        return [...this].map(([key, value]) => key);
+    }
+    values() {
+        return [...this].map(([key, value]) => value);
     }
 }
