@@ -60,7 +60,8 @@ export default (value : mixed) : Hash => {
         valueHashable = getAsHashable.call(value);
     }
     
-    if (typeof valueHashable === 'object') {
+    if (typeof valueHashable === 'object' && valueHashable !== null) {
+        // Note: WeakMap keys must be an object (and non-null)
         if (cache.has(valueHashable)) {
             return (cache.get(valueHashable) : any); // Type cast (assure flow that the cache entry exists)
         }
@@ -68,7 +69,8 @@ export default (value : mixed) : Hash => {
     
     const hash = hashObject(valueHashable, options);
     
-    if (typeof valueHashable === 'object') {
+    if (typeof valueHashable === 'object' && valueHashable !== null) {
+        // Note: WeakMap keys must be an object (and non-null)
         cache.set(valueHashable, hash);
     }
     
