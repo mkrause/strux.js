@@ -111,7 +111,7 @@ const scores = new Dictionary({
     alice: 101,
 });
 scores.get('john'); // 42
-count.toJSON(); // { john: 42, alice: 101 }
+scores.toJSON(); // { john: 42, alice: 101 }
 ```
 
 * `Mapping<K, A>` and `MappingNonempty<K, A>`
