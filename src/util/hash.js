@@ -15,7 +15,6 @@ Some notes on the `object-hash` library:
   - Performance:
     > On node, uses the `crypto` module, which is fairly fast
     > In the browser, has to use a polyfill, which is probably not so fast
-    > Numerical hash codes seem like they may be faster (intuitively, need to test)
 
 Alternatives:
   - ImmutableJS's hash utility
@@ -26,6 +25,15 @@ Alternatives:
   - https://www.npmjs.com/package/oid
   - https://github.com/planttheidea/hash-it
     > Numerical hash codes
+
+Performance notes:
+  > Currently this function takes about 20ms per hash (averaged, for small inputs, on my machine),
+    > This is way too slow, since this function is called very frequently.
+  > Ideas:
+    - Skip sha1 computation, by using a simpler algorithm
+      > E.g. https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
+    - Allow collisions, using hash codes for potential equality only
+      > See: https://github.com/facebook/immutable-js/blob/master/src/Hash.js
 */
 
 const options = {
