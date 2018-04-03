@@ -59,6 +59,13 @@ export default (value : mixed) : Hash => {
         throw new TypeError('Cannot hash `undefined`');
     }
     
+    if (typeof value === 'object' && value !== null) {
+        // Note: WeakMap keys must be an object (and non-null)
+        if (cache.has(value)) {
+            return (cache.get(value) : any); // Type cast (assure flow that the cache entry exists)
+        }
+    }
+    
     let valueHashable = value;
     if (typeof value === 'object' && value !== null && asHashable in value) {
         if (typeof value[asHashable] !== 'function') {
@@ -66,13 +73,6 @@ export default (value : mixed) : Hash => {
         }
         const getAsHashable : () => mixed = value[asHashable];
         valueHashable = getAsHashable.call(value);
-    }
-    
-    if (typeof valueHashable === 'object' && valueHashable !== null) {
-        // Note: WeakMap keys must be an object (and non-null)
-        if (cache.has(valueHashable)) {
-            return (cache.get(valueHashable) : any); // Type cast (assure flow that the cache entry exists)
-        }
     }
     
     const hash = hashObject(valueHashable, options);
